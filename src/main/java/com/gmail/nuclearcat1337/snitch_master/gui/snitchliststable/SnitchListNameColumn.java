@@ -6,8 +6,8 @@ import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchList;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchManager;
 import com.gmail.nuclearcat1337.snitch_master.util.Acceptor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 
 import java.util.List;
 
@@ -17,12 +17,12 @@ public class SnitchListNameColumn implements TableColumn<SnitchList> {
 	private final SnitchManager manager;
 
 	public SnitchListNameColumn(SnitchManager manager) {
-		mc = Minecraft.getMinecraft();
+		mc = Minecraft.getInstance();
 		this.manager = manager;
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(SnitchList item) {
+	public Button[] prepareEntry(SnitchList item) {
 		return null;
 	}
 
@@ -37,19 +37,19 @@ public class SnitchListNameColumn implements TableColumn<SnitchList> {
 	}
 
 	@Override
-	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 		if (!leftClick) {
 			mc.displayGuiScreen(new EditStringGui(parentScreen, list.getListName(), "Edit List Name", new EditNameAcceptor(list), 20));
 		}
 	}
 
 	@Override
-	public void released(SnitchList list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void released(SnitchList list, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void draw(SnitchList list, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
+	public void draw(SnitchList list, int xPos, int yPos, int columnWidth, int slotHeight, Button[] buttons, int slotIndex, int mouseX, int mouseY) {
 		int stringYPosition = yPos + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
 		String text = list.getListName();
 		int stringWidth = mc.fontRenderer.getStringWidth(text);

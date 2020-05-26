@@ -4,13 +4,13 @@ import com.gmail.nuclearcat1337.snitch_master.gui.GuiConstants;
 import com.gmail.nuclearcat1337.snitch_master.util.Pair;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.list.ExtendedList;
 import net.minecraft.client.renderer.Tessellator;
 
 import java.util.*;
 
-public class TableGui<T> extends GuiListExtended {
+public class TableGui<T> extends ExtendedList {
 	private static final int SEPARATION_DISTANCE = GuiConstants.STANDARD_SEPARATION_DISTANCE * 2;
 
 	private final TableTopGui<T> tableTop;
@@ -28,12 +28,12 @@ public class TableGui<T> extends GuiListExtended {
 	private boolean sortAscending = true;
 
 	public TableGui(TableTopGui<T> tableTop, Collection<T> items, Collection<TableColumn<T>> columns) {
-		super(Minecraft.getMinecraft(), tableTop.width, tableTop.height, 32, tableTop.height - 32, 20);
+		super(Minecraft.getInstance(), tableTop.width, tableTop.height, 32, tableTop.height - 32, 20);
 
 		this.tableTop = tableTop;
 		this.columns = columns;
 
-		this.setHasListHeader(true, (int) ((float) mc.fontRenderer.FONT_HEIGHT * 1.5));
+		this.setHasListHeader(true, (int) ((float) minecraft.fontRenderer.FONT_HEIGHT * 1.5));
 
 		columnBounds = new HashMap<>(columns.size());
 		columnWidths = new HashMap<>(columns.size());
@@ -54,7 +54,7 @@ public class TableGui<T> extends GuiListExtended {
 
 		String root = ChatFormatting.UNDERLINE + "" + ChatFormatting.BOLD;
 		for (TableColumn<T> col : columns) {
-			int headerWidth = mc.fontRenderer.getStringWidth(root + col.getColumnName() + (col.canSort() ? "vv" : ""));
+			int headerWidth = minecraft.fontRenderer.getStringWidth(root + col.getColumnName() + (col.canSort() ? "vv" : ""));
 			if (!columnWidths.containsKey(col) || headerWidth > columnWidths.get(col)) {
 				columnWidths.put(col, headerWidth);
 			}
@@ -158,9 +158,9 @@ public class TableGui<T> extends GuiListExtended {
 				text += (sortAscending ? " /\\" : " \\/");
 			}
 
-			int textWidth = mc.fontRenderer.getStringWidth(text);
+			int textWidth = minecraft.fontRenderer.getStringWidth(text);
 			int drawXPos = xPos + (columnWidth / 2) - (textWidth / 2);
-			this.mc.fontRenderer.drawString(text, drawXPos, yPosition, 16777215);
+			this.minecraft.fontRenderer.drawString(text, drawXPos, yPosition, 16777215);
 			xPos += (columnWidth + SEPARATION_DISTANCE);
 		}
 	}
@@ -195,13 +195,13 @@ public class TableGui<T> extends GuiListExtended {
 
 	private class TableEntry implements IGuiListEntry {
 		private T item;
-		private HashMap<String, GuiButton[]> buttons;
+		private HashMap<String, Button[]> buttons;
 
 		public TableEntry(T item) {
 			this.item = item;
 			buttons = new HashMap<>();
 			for (TableColumn<T> col : columns) {
-				GuiButton[] buttons = col.prepareEntry(item);
+				Button[] buttons = col.prepareEntry(item);
 				if (buttons != null) {
 					this.buttons.put(col.getColumnName(), buttons);
 				}

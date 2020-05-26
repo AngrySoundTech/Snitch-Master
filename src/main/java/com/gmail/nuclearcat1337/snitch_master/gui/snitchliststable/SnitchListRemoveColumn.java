@@ -6,8 +6,8 @@ import com.gmail.nuclearcat1337.snitch_master.gui.tables.TableColumn;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchList;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,15 +22,15 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList> {
 	public static final HashSet<String> removedSnitchLists = new HashSet<>();
 
 	public SnitchListRemoveColumn(SnitchMaster snitchMaster) {
-		mc = Minecraft.getMinecraft();
+		mc = Minecraft.getInstance();
 		buttonWidth = mc.fontRenderer.getStringWidth(BUTTON_TEXT + "---");
 		this.manager = snitchMaster.getManager();
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(SnitchList item) {
-		GuiButton[] buttons = new GuiButton[1];
-		buttons[0] = new GuiButton(0, 0, 0, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, BUTTON_TEXT);
+	public Button[] prepareEntry(SnitchList item) {
+		Button[] buttons = new Button[1];
+		buttons[0] = new Button(0, 0, 0, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, BUTTON_TEXT);
 		return buttons;
 	}
 
@@ -45,7 +45,7 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList> {
 	}
 
 	@Override
-	public void clicked(SnitchList item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void clicked(SnitchList item, boolean leftClick, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 		if (!leftClick || removedSnitchLists.contains(item.getListName())) {
 			return;
 		}
@@ -59,7 +59,7 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList> {
 	}
 
 	@Override
-	public void released(SnitchList list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void released(SnitchList list, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 		if (removedSnitchLists.contains(list.getListName())) {
 			return;
 		}
@@ -67,7 +67,7 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList> {
 	}
 
 	@Override
-	public void draw(SnitchList list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
+	public void draw(SnitchList list, int xPosition, int yPosition, int columnWidth, int slotHeight, Button[] buttons, int slotIndex, int mouseX, int mouseY) {
 		if (removedSnitchLists.contains(list.getListName())) {
 			return;
 		}

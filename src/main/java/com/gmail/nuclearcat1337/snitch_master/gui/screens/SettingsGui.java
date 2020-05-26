@@ -3,19 +3,19 @@ package com.gmail.nuclearcat1337.snitch_master.gui.screens;
 import com.gmail.nuclearcat1337.snitch_master.Settings;
 import com.gmail.nuclearcat1337.snitch_master.SnitchMaster;
 import com.gmail.nuclearcat1337.snitch_master.gui.GuiConstants;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
 
-public class SettingsGui extends GuiScreen {
-	private final GuiScreen backToScreen;
+public class SettingsGui extends Screen {
+	private final Screen backToScreen;
 	private final Settings settings;
 
-	private GuiButton chatSpamButton;
-	private GuiButton quietTimeButton;
-	private GuiButton renderTextButton;
-	private GuiButton manualModeButton;
+	private Button chatSpamButton;
+	private Button quietTimeButton;
+	private Button renderTextButton;
+	private Button manualModeButton;
 
-	public SettingsGui(GuiScreen backToScreen) {
+	public SettingsGui(Screen backToScreen) {
 		this.backToScreen = backToScreen;
 		//This is a hack so that this class can be used with the Forge "config" button
 		this.settings = SnitchMaster.instance.getSettings();
@@ -31,33 +31,33 @@ public class SettingsGui extends GuiScreen {
 		int drawXPos = xPos;
 		int halfWidth = (GuiConstants.LONG_BUTTON_WIDTH / 2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 
-		renderTextButton = new GuiButton(1, drawXPos, yPos, halfWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
+		renderTextButton = new Button(1, drawXPos, yPos, halfWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
 		updateRenderTextButton();
 		this.buttonList.add(renderTextButton);
 
 		//Increment it for drawing the second button
 		drawXPos += (halfWidth + GuiConstants.STANDARD_SEPARATION_DISTANCE);
-		manualModeButton = new GuiButton(2, drawXPos, yPos, halfWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
+		manualModeButton = new Button(2, drawXPos, yPos, halfWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
 		updateManualModeButton();
 		this.buttonList.add(manualModeButton);
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		quietTimeButton = new GuiButton(3, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Quiet Time Config");
+		quietTimeButton = new Button(3, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Quiet Time Config");
 		this.buttonList.add(quietTimeButton);
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		chatSpamButton = new GuiButton(4, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
+		chatSpamButton = new Button(4, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
 		updateChatSpamButton();
 		this.buttonList.add(chatSpamButton);
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new GuiButton(0, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Done"));
+		this.buttonList.add(new Button(0, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Done"));
 	}
 
-	public void actionPerformed(GuiButton button) {
+	public void actionPerformed(Button button) {
 		switch (button.id) {
 			case 0: //"Done"
 				this.mc.displayGuiScreen(backToScreen);

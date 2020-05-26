@@ -7,7 +7,7 @@ import com.gmail.nuclearcat1337.snitch_master.api.SnitchAlert;
 import com.gmail.nuclearcat1337.snitch_master.util.QuietTimeConfig;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.HoverEvent;
 
@@ -52,11 +52,11 @@ public class QuietTimeHandler implements IAlertRecipient {
 				ITextComponent hoverComponent = parseHover(alert);
 				if (hoverComponent != null) {
 					if (currentComponent == null) {
-						currentComponent = new TextComponentString(builder.toString()).setStyle(aqua.createShallowCopy());
+						currentComponent = new StringTextComponent(builder.toString()).setStyle(aqua.createShallowCopy());
 						builder = new StringBuilder();
 					}
 					else if (builder.length() > 0) {
-						currentComponent.appendSibling(new TextComponentString(builder.toString()).setStyle(aqua.createShallowCopy()));
+						currentComponent.appendSibling(new StringTextComponent(builder.toString()).setStyle(aqua.createShallowCopy()));
 						builder = new StringBuilder();
 					}
 					currentComponent.appendSibling(hoverComponent);
@@ -87,7 +87,7 @@ public class QuietTimeHandler implements IAlertRecipient {
 		}
 
 		if (builder.length() > 0) {
-			ITextComponent comp = new TextComponentString(builder.toString()).setStyle(aqua.createShallowCopy());
+			ITextComponent comp = new StringTextComponent(builder.toString()).setStyle(aqua.createShallowCopy());
 			if (currentComponent == null) {
 				currentComponent = comp;
 			} else {
@@ -96,7 +96,7 @@ public class QuietTimeHandler implements IAlertRecipient {
 		}
 
 		if (currentComponent != null) {
-			SnitchMaster.logger.info("Original Message: " + alert.getRawMessage().getUnformattedText());
+			SnitchMaster.logger.info("Original Message: " + alert.getRawMessage().getUnformattedComponentText().toString());
 			alert.setRawMessage(currentComponent);
 		}
 	}
@@ -117,8 +117,8 @@ public class QuietTimeHandler implements IAlertRecipient {
 			String hoverText = getTextForCurrentInstruction(alert);
 			index++;
 
-			HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString(hoverText));
-			ITextComponent hoverComponent = new TextComponentString(showText).setStyle(new Style().setColor(TextFormatting.AQUA).setHoverEvent(hoverEvent));
+			HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(hoverText));
+			ITextComponent hoverComponent = new StringTextComponent(showText).setStyle(new Style().setColor(TextFormatting.AQUA).setHoverEvent(hoverEvent));
 
 			index--;//????
 			return hoverComponent;

@@ -6,13 +6,13 @@ import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchTags;
 import com.gmail.nuclearcat1337.snitch_master.snitches.Snitch;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchManager;
 import com.gmail.nuclearcat1337.snitch_master.util.Location;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class SnitchListeners {
 	private final SnitchMaster snitchMaster;
@@ -36,8 +36,8 @@ public class SnitchListeners {
 				PlayerInteractEvent.RightClickBlock event1 = (PlayerInteractEvent.RightClickBlock) event;
 				BlockPos pos = event1.getPos();
 				if (pos != null) {
-					IBlockState state = event1.getWorld().getBlockState(pos);
-					if (state.getBlock().equals(Blocks.JUKEBOX) || state.getBlock().equals(Blocks.NOTEBLOCK)) {
+					BlockState state = event1.getWorld().getBlockState(pos);
+					if (state.getBlock().equals(Blocks.JUKEBOX) || state.getBlock().equals(Blocks.NOTE_BLOCK)) {
 						Location loc = new Location(pos.getX(), pos.getY(), pos.getZ(), snitchMaster.getCurrentWorld());
 						if (!manager.getSnitches().contains(loc)) {
 							Snitch snitch = new Snitch(loc, SnitchTags.FROM_MANUAL);

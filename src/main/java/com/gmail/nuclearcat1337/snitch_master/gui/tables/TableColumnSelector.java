@@ -3,15 +3,15 @@ package com.gmail.nuclearcat1337.snitch_master.gui.tables;
 import com.gmail.nuclearcat1337.snitch_master.gui.GuiConstants;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.list.ExtendedList;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.Tessellator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableColumnSelector<T> extends GuiListExtended {
+public class TableColumnSelector<T> extends ExtendedList {
 	private static final String CONTROLS_HEADER = "Controls";
 	private static final String NAME_HEADER = "Column Name";
 	private static final String RENDER_HEADER = "Render Enabled";
@@ -23,8 +23,8 @@ public class TableColumnSelector<T> extends GuiListExtended {
 
 	private int maxNameLength = 0;
 
-	public TableColumnSelector(GuiScreen parent, List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns) {
-		super(Minecraft.getMinecraft(), parent.width, parent.height, 32, parent.height - 32, 20);
+	public TableColumnSelector(Screen parent, List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns) {
+		super(Minecraft.getInstance(), parent.width, parent.height, 32, parent.height - 32, 20);
 
 		this.renderLength = mc.fontRenderer.getStringWidth(RENDER_HEADER + "--");
 		this.setHasListHeader(true, (int) ((float) mc.fontRenderer.FONT_HEIGHT * 1.5));
@@ -137,17 +137,17 @@ public class TableColumnSelector<T> extends GuiListExtended {
 		private TableColumn<T> column;
 		private boolean render;
 
-		private GuiButton renderButton;
-		private GuiButton downButton;
-		private GuiButton upButton;
+		private Button renderButton;
+		private Button downButton;
+		private Button upButton;
 
 		public ColumnEntry(TableColumn<T> column, boolean render) {
 			this.column = column;
 			this.render = render;
 
-			this.upButton = new GuiButton(0, width - 60, 0, renderLength / 2 - GuiConstants.SMALL_SEPARATION_DISTANCE / 2, GuiConstants.STANDARD_BUTTON_HEIGHT, "/\\");
-			this.downButton = new GuiButton(1, width - 60, 0, renderLength / 2 - GuiConstants.SMALL_SEPARATION_DISTANCE / 2, GuiConstants.STANDARD_BUTTON_HEIGHT, "\\/");
-			this.renderButton = new GuiButton(2, width - 60, 0, renderLength - 2, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
+			this.upButton = new Button(0, width - 60, 0, renderLength / 2 - GuiConstants.SMALL_SEPARATION_DISTANCE / 2, GuiConstants.STANDARD_BUTTON_HEIGHT, "/\\");
+			this.downButton = new Button(1, width - 60, 0, renderLength / 2 - GuiConstants.SMALL_SEPARATION_DISTANCE / 2, GuiConstants.STANDARD_BUTTON_HEIGHT, "\\/");
+			this.renderButton = new Button(2, width - 60, 0, renderLength - 2, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
 			setRenderText();
 		}
 

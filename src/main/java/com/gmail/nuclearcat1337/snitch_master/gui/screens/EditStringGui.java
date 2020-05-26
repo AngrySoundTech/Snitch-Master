@@ -4,13 +4,13 @@ import com.gmail.nuclearcat1337.snitch_master.gui.GuiConstants;
 import com.gmail.nuclearcat1337.snitch_master.gui.controls.TextBox;
 import com.gmail.nuclearcat1337.snitch_master.util.Acceptor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 
 import java.io.IOException;
 
-public class EditStringGui extends GuiScreen {
-	private GuiScreen cancelToScreen;
+public class EditStringGui extends Screen {
+	private Screen cancelToScreen;
 
 	private final String titleText;
 	private final int titleWidth;
@@ -21,14 +21,14 @@ public class EditStringGui extends GuiScreen {
 
 	private final int maxStringLength;
 
-	public EditStringGui(GuiScreen cancelToScreen, String editString, String titleText, Acceptor<String> callback, int maxStringLength) {
+	public EditStringGui(Screen cancelToScreen, String editString, String titleText, Acceptor<String> callback, int maxStringLength) {
 		this.cancelToScreen = cancelToScreen;
 		this.editString = editString;
 		this.callback = callback;
 		this.maxStringLength = maxStringLength;
 
 		this.titleText = titleText;
-		this.titleWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(titleText);
+		this.titleWidth = Minecraft.getInstance().fontRenderer.getStringWidth(titleText);
 	}
 
 	public void initGui() {
@@ -36,18 +36,18 @@ public class EditStringGui extends GuiScreen {
 		int yPos = (this.height / 2) - (GuiConstants.STANDARD_TEXTBOX_HEIGHT) - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 
 		stringBox = new TextBox(editString, fontRenderer, xPos, yPos, GuiConstants.LARGE_TEXBOX_LENGTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, maxStringLength);
-		stringBox.setFocused(true);
+		stringBox.changeFocus(true);
 
 		this.buttonList.clear();
 
 		yPos = (this.height / 2) + (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 		int buttonWidth = (stringBox.width / 2) - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new GuiButton(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttonList.add(new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
 		xPos += (buttonWidth + GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
-		this.buttonList.add(new GuiButton(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
+		this.buttonList.add(new Button(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
 
 		super.initGui();
 	}
@@ -82,7 +82,7 @@ public class EditStringGui extends GuiScreen {
 		super.mouseClicked(one, two, three);
 	}
 
-	public void actionPerformed(GuiButton button) {
+	public void actionPerformed(Button button) {
 		switch (button.id) {
 			case 1:
 				mc.displayGuiScreen(cancelToScreen);

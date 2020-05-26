@@ -7,16 +7,18 @@ import com.gmail.nuclearcat1337.snitch_master.util.Color;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.io.*;
-import java.util.*;
-
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.commons.io.FileUtils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
+
 public class SnitchManager {
-	private static final Minecraft mc = Minecraft.getMinecraft();
+	private static final Minecraft mc = Minecraft.getInstance();
 
 	private static final String serversFolder = SnitchMaster.modDataFolder + "/Servers";
 	private static final String SNITCHES_FILE = "Snitches.csv";
@@ -58,13 +60,13 @@ public class SnitchManager {
 
 		//IDK which one this classes uses and I cant be bothered to find out
 		MinecraftForge.EVENT_BUS.register(this);
-		FMLCommonHandler.instance().bus().register(this);
+		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 	}
 
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		//Make sure the player isn't dead and isn't null (idk why?)
-		if (mc.player == null || (!mc.player.isDead && mc.player.getDisplayName().equals(event.getEntity().getDisplayName()))) {
+		if (mc.player == null || (mc.player.isAlive() && mc.player.getDisplayName().equals(event.getEntity().getDisplayName()))) {
 			//The name of the server they just joined
 			String newServer = null;
 			if (mc.isSingleplayer()) {

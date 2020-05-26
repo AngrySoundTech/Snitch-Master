@@ -9,17 +9,17 @@ import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchList;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchManager;
 import com.gmail.nuclearcat1337.snitch_master.util.Color;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
+import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 
-public class NewSnitchListGui extends GuiScreen {
+public class NewSnitchListGui extends Screen {
 	private static final String CREATE_NEW_LIST_STRING = "Create New Snitch List";
 
 	private SnitchMaster snitchMaster;
-	private GuiScreen cancelToScreen;
+	private Screen cancelToScreen;
 
 	private TextBox nameBox;
 	private TextBox redBox;
@@ -34,7 +34,7 @@ public class NewSnitchListGui extends GuiScreen {
 	private int createNewListStringWidth;
 	private int buttonWidth;
 
-	public NewSnitchListGui(GuiScreen cancelToScreen, SnitchMaster snitchMaster) {
+	public NewSnitchListGui(Screen cancelToScreen, SnitchMaster snitchMaster) {
 		this.cancelToScreen = cancelToScreen;
 		this.snitchMaster = snitchMaster;
 	}
@@ -43,18 +43,18 @@ public class NewSnitchListGui extends GuiScreen {
 	private static final int MAX_COLOR_TEXT_LENGTH = 3;
 
 	public void initGui() {
-		qualifierBoxWidth = mc.fontRenderer.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW"); //TODO---Idk this is kind of just an arbitrary width
+		qualifierBoxWidth = minecraft.fontRenderer.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW"); //TODO---Idk this is kind of just an arbitrary width
 		nameBoxWidth = qualifierBoxWidth;
 		rgbBoxWidth = nameBoxWidth / 3;
-		qualifierStringWidth = mc.fontRenderer.getStringWidth("Qualifier");
-		createNewListStringWidth = mc.fontRenderer.getStringWidth(CREATE_NEW_LIST_STRING);
+		qualifierStringWidth = minecraft.fontRenderer.getStringWidth("Qualifier");
+		createNewListStringWidth = minecraft.fontRenderer.getStringWidth(CREATE_NEW_LIST_STRING);
 		buttonWidth = (qualifierBoxWidth - GuiConstants.STANDARD_SEPARATION_DISTANCE) / 3;
 
 		int yPos = (this.height / 2) - (GuiConstants.STANDARD_BUTTON_HEIGHT * 3) - (GuiConstants.STANDARD_SEPARATION_DISTANCE);
 		int xPos = (this.width / 2) - (nameBoxWidth / 2);
 
 		nameBox = new TextBox("", fontRenderer, xPos, yPos, nameBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, MAX_NAME_TEXT_LENGTH);
-		nameBox.setFocused(true);
+		nameBox.changeFocus(true);
 
 		yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 		xPos = nameBox.x;
@@ -80,11 +80,11 @@ public class NewSnitchListGui extends GuiScreen {
 
 		xPos += (blueBox.width + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.buttonList.add(new GuiButton(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttonList.add(new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
 		xPos += (buttonWidth + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.buttonList.add(new GuiButton(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Create"));
+		this.buttonList.add(new Button(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Create"));
 
 		super.initGui();
 	}
@@ -100,33 +100,33 @@ public class NewSnitchListGui extends GuiScreen {
 
 	public void keyTyped(char par1, int par2) throws IOException {
 		if (nameBox.isFocused()) {
-			if (par2 == Keyboard.KEY_TAB) {
-				qualifierBox.setFocused(true);
-				nameBox.setFocused(false);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				qualifierBox.changeFocus(true);
+				nameBox.changeFocus(false);
 			}
 			nameBox.textboxKeyTyped(par1, par2);
 		} else if (qualifierBox.isFocused()) {
-			if (par2 == Keyboard.KEY_TAB) {
-				redBox.setFocused(true);
-				qualifierBox.setFocused(false);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				redBox.changeFocus(true);
+				qualifierBox.changeFocus(false);
 			}
 			qualifierBox.textboxKeyTyped(par1, par2);
 		} else if (redBox.isFocused()) {
-			if (par2 == Keyboard.KEY_TAB) {
-				greenBox.setFocused(true);
-				redBox.setFocused(false);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				greenBox.changeFocus(true);
+				redBox.changeFocus(false);
 			}
 			redBox.textboxKeyTyped(par1, par2);
 		} else if (greenBox.isFocused()) {
-			if (par2 == Keyboard.KEY_TAB) {
-				blueBox.setFocused(true);
-				greenBox.setFocused(false);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				blueBox.changeFocus(true);
+				greenBox.changeFocus(false);
 			}
 			greenBox.textboxKeyTyped(par1, par2);
 		} else if (blueBox.isFocused()) {
-			if (par2 == Keyboard.KEY_TAB) {
-				nameBox.setFocused(true);
-				blueBox.setFocused(false);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				nameBox.changeFocus(true);
+				blueBox.changeFocus(false);
 			}
 			blueBox.textboxKeyTyped(par1, par2);
 		}
@@ -137,19 +137,19 @@ public class NewSnitchListGui extends GuiScreen {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 
-		int constYValue = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - mc.fontRenderer.FONT_HEIGHT / 2;
+		int constYValue = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - minecraft.fontRenderer.FONT_HEIGHT / 2;
 		int constXValue = GuiConstants.SMALL_SEPARATION_DISTANCE + qualifierStringWidth;
 
-		mc.fontRenderer.drawString("Blue", blueBox.x - constXValue, blueBox.y + constYValue, 16777215);
-		mc.fontRenderer.drawString("Green", greenBox.x - constXValue, greenBox.y + constYValue, 16777215);
-		mc.fontRenderer.drawString("Red", redBox.x - constXValue, redBox.y + constYValue, 16777215);
-		mc.fontRenderer.drawString("Qualifier", qualifierBox.x - constXValue, qualifierBox.y + constYValue, 16777215);
-		mc.fontRenderer.drawString("Name", nameBox.x - constXValue, nameBox.y + constYValue, 16777215);
+		minecraft.fontRenderer.drawString("Blue", blueBox.x - constXValue, blueBox.y + constYValue, 16777215);
+		minecraft.fontRenderer.drawString("Green", greenBox.x - constXValue, greenBox.y + constYValue, 16777215);
+		minecraft.fontRenderer.drawString("Red", redBox.x - constXValue, redBox.y + constYValue, 16777215);
+		minecraft.fontRenderer.drawString("Qualifier", qualifierBox.x - constXValue, qualifierBox.y + constYValue, 16777215);
+		minecraft.fontRenderer.drawString("Name", nameBox.x - constXValue, nameBox.y + constYValue, 16777215);
 
-		int yPos = nameBox.y - GuiConstants.STANDARD_SEPARATION_DISTANCE - mc.fontRenderer.FONT_HEIGHT;
+		int yPos = nameBox.y - GuiConstants.STANDARD_SEPARATION_DISTANCE - minecraft.fontRenderer.FONT_HEIGHT;
 		int xPos = nameBox.x + (nameBoxWidth / 2) - (createNewListStringWidth / 2);
 
-		mc.fontRenderer.drawString(CREATE_NEW_LIST_STRING, xPos, yPos, 16777215);
+		minecraft.fontRenderer.drawString(CREATE_NEW_LIST_STRING, xPos, yPos, 16777215);
 
 		this.nameBox.drawTextBox();
 		this.qualifierBox.drawTextBox();
@@ -168,10 +168,10 @@ public class NewSnitchListGui extends GuiScreen {
 		super.mouseClicked(one, two, three);
 	}
 
-	public void actionPerformed(GuiButton button) {
+	public void actionPerformed(Button button) {
 		switch (button.id) {
 			case 1:
-				Minecraft.getMinecraft().displayGuiScreen(cancelToScreen);
+				Minecraft.getInstance().displayGuiScreen(cancelToScreen);
 				break;
 			case 2:
 				String name = nameBox.getText();
@@ -203,7 +203,7 @@ public class NewSnitchListGui extends GuiScreen {
 				//Creating a new snitch list automatically triggers a save of all snitch lists
 				manager.createSnitchList(name, new SnitchListQualifier(qualifier), true, new Color(red, green, blue));
 
-				this.mc.displayGuiScreen(new SnitchListsTable(null, manager.getSnitchLists(), "All Snitch Lists", true, snitchMaster));
+				this.minecraft.displayGuiScreen(new SnitchListsTable(null, manager.getSnitchLists(), "All Snitch Lists", true, snitchMaster));
 				break;
 		}
 	}

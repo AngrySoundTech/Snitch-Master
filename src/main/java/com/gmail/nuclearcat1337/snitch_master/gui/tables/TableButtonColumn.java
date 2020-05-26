@@ -2,8 +2,8 @@ package com.gmail.nuclearcat1337.snitch_master.gui.tables;
 
 import com.gmail.nuclearcat1337.snitch_master.gui.GuiConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class TableButtonColumn<T> implements TableColumn<T> {
 	private final OnButtonClick<T> onClick;
 
 	public TableButtonColumn(String columnName, String buttonText, int buttonWidth, OnButtonClick<T> onClick) {
-		mc = Minecraft.getMinecraft();
+		mc = Minecraft.getInstance();
 		this.columnName = columnName;
 		this.buttonText = buttonText;
 		this.buttonWidth = buttonWidth;
@@ -24,9 +24,9 @@ public class TableButtonColumn<T> implements TableColumn<T> {
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(T item) {
-		GuiButton[] buttons = new GuiButton[1];
-		buttons[0] = new GuiButton(0, 0, 0, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, buttonText);
+	public Button[] prepareEntry(T item) {
+		Button[] buttons = new Button[1];
+		buttons[0] = new Button(0, 0, 0, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, buttonText);
 		return buttons;
 	}
 
@@ -41,7 +41,7 @@ public class TableButtonColumn<T> implements TableColumn<T> {
 	}
 
 	@Override
-	public void clicked(T item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void clicked(T item, boolean leftClick, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 		if (!leftClick) {
 			return;
 		}
@@ -51,12 +51,12 @@ public class TableButtonColumn<T> implements TableColumn<T> {
 	}
 
 	@Override
-	public void released(T list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void released(T list, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 		buttons[0].mouseReleased(xPos, yPos);
 	}
 
 	@Override
-	public void draw(T list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
+	public void draw(T list, int xPosition, int yPosition, int columnWidth, int slotHeight, Button[] buttons, int slotIndex, int mouseX, int mouseY) {
 		yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 		int xPos = xPosition + (columnWidth / 2) - (buttonWidth / 2);
 
@@ -87,6 +87,6 @@ public class TableButtonColumn<T> implements TableColumn<T> {
 	}
 
 	public interface OnButtonClick<T> {
-		void onClick(T item, GuiButton button, GuiScreen parent);
+		void onClick(T item, Button button, Screen parent);
 	}
 }

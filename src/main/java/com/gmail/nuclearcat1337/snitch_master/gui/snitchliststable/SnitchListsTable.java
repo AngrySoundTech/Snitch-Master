@@ -18,8 +18,8 @@ import com.gmail.nuclearcat1337.snitch_master.util.Acceptor;
 import com.gmail.nuclearcat1337.snitch_master.util.Color;
 import com.gmail.nuclearcat1337.snitch_master.util.Pair;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +40,7 @@ public class SnitchListsTable extends TableTopGui<SnitchList> {
 	private final SnitchManager manager;
 	private final boolean fullList;
 
-	public SnitchListsTable(GuiScreen parentScreen, Collection<SnitchList> items, String title, boolean fullList, SnitchMaster snitchMaster) {
+	public SnitchListsTable(Screen parentScreen, Collection<SnitchList> items, String title, boolean fullList, SnitchMaster snitchMaster) {
 		super(parentScreen, items, title);
 		this.fullList = fullList;
 		this.snitchMaster = snitchMaster;
@@ -56,14 +56,14 @@ public class SnitchListsTable extends TableTopGui<SnitchList> {
 		int yPos = this.height - GuiConstants.STANDARD_BUTTON_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
 		if (fullList) {
-			this.buttonList.add(new GuiButton(firstId, xPos, yPos, NEW_BUTTON_WIDTH, 18, "New"));
+			this.buttonList.add(new Button(firstId, xPos, yPos, NEW_BUTTON_WIDTH, 18, "New"));
 		}
 
 		xPos += GuiConstants.STANDARD_SEPARATION_DISTANCE + NEW_BUTTON_WIDTH;
-		this.buttonList.add(new GuiButton(firstId + 1, xPos, yPos, RENDER_ON_BUTTON_WIDTH, 18, "All On"));
+		this.buttonList.add(new Button(firstId + 1, xPos, yPos, RENDER_ON_BUTTON_WIDTH, 18, "All On"));
 
 		xPos += GuiConstants.STANDARD_SEPARATION_DISTANCE + RENDER_ON_BUTTON_WIDTH;
-		this.buttonList.add(new GuiButton(firstId + 2, xPos, yPos, RENDER_OFF_BUTTON_WIDTH, 18, "All Off"));
+		this.buttonList.add(new Button(firstId + 2, xPos, yPos, RENDER_OFF_BUTTON_WIDTH, 18, "All Off"));
 	}
 
 	@Override
@@ -79,13 +79,13 @@ public class SnitchListsTable extends TableTopGui<SnitchList> {
 		settings.saveSettings();
 	}
 
-	public void actionPerformed(GuiButton button) {
+	public void actionPerformed(Button button) {
 		if (!button.enabled) {
 			return;
 		}
 
 		if (button.id == firstId) { //New snitch list
-			Minecraft.getMinecraft().displayGuiScreen(new NewSnitchListGui(this, snitchMaster));
+			Minecraft.getInstance().displayGuiScreen(new NewSnitchListGui(this, snitchMaster));
 		} else if (button.id == firstId + 1) { //Set all render on
 			setAllRender(true);
 		} else if (button.id == firstId + 2) { //Set all render off
@@ -148,21 +148,21 @@ public class SnitchListsTable extends TableTopGui<SnitchList> {
 
 	private final TableButtonColumn.OnButtonClick<SnitchList> qualifierClick = new TableButtonColumn.OnButtonClick<SnitchList>() {
 		@Override
-		public void onClick(SnitchList list, GuiButton button, GuiScreen parentScreen) {
+		public void onClick(SnitchList list, Button button, Screen parentScreen) {
 			mc.displayGuiScreen(new EditStringGui(parentScreen, list.getQualifier().toString(), "Edit Qualifier", new EditQualifierAcceptor(list), 100));
 		}
 	};
 
 	private final TableButtonColumn.OnButtonClick<SnitchList> colorClick = new TableButtonColumn.OnButtonClick<SnitchList>() {
 		@Override
-		public void onClick(SnitchList list, GuiButton button, GuiScreen parentScreen) {
+		public void onClick(SnitchList list, Button button, Screen parentScreen) {
 			mc.displayGuiScreen(new EditColorGui(parentScreen, list.getListColor(), "Edit Color", new EditColorAcceptor(list)));
 		}
 	};
 
 	private final TableButtonColumn.OnButtonClick<SnitchList> viewSnitchesClick = new TableButtonColumn.OnButtonClick<SnitchList>() {
 		@Override
-		public void onClick(SnitchList list, GuiButton button, GuiScreen parentScreen) {
+		public void onClick(SnitchList list, Button button, Screen parentScreen) {
 			ArrayList<Snitch> snitches = manager.getSnitchesInList(list);
 			if (snitches.isEmpty()) {
 				button.displayString = "None";

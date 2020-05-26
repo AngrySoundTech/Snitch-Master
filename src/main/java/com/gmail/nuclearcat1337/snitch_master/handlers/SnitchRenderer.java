@@ -9,16 +9,16 @@ import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchManager;
 import com.gmail.nuclearcat1337.snitch_master.util.Color;
 import com.gmail.nuclearcat1337.snitch_master.util.GeneralUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.apache.commons.lang3.text.WordUtils;
@@ -28,7 +28,7 @@ public class SnitchRenderer {
 	private static final int BOX_RENDER_DISTANCE = 36;
 	private static final int TEXT_RENDER_DISTANCE = (int) ((double) ((Snitch.SNITCH_RADIUS) + 1) * Math.sqrt(2)) + 2;
 
-	private static final Minecraft mc = Minecraft.getMinecraft();
+	private static final Minecraft mc = Minecraft.getInstance();
 	private final SnitchMaster snitchMaster;
 	private final SnitchManager manager;
 
@@ -86,7 +86,7 @@ public class SnitchRenderer {
 		//Thanks to Electric-Expansion mod for the majority of this code
 		//https://github.com/Alex-hawks/Electric-Expansion/blob/master/src/electricexpansion/client/render/RenderFloatingText.java
 
-		RenderManager renderManager = mc.getRenderManager();
+		EntityRendererManager renderManager = mc.getRenderManager();
 
 		float playerX = (float) (mc.player.lastTickPosX + (mc.player.posX - mc.player.lastTickPosX) * partialTickTime);
 		float playerY = (float) (mc.player.lastTickPosY + (mc.player.posY - mc.player.lastTickPosY) * partialTickTime);

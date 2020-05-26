@@ -4,19 +4,19 @@ import com.gmail.nuclearcat1337.snitch_master.gui.GuiConstants;
 import com.gmail.nuclearcat1337.snitch_master.gui.controls.TextBox;
 import com.gmail.nuclearcat1337.snitch_master.handlers.ChatSnitchParser;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
+import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 
-public class TargetedSnitchUpdateGui extends GuiScreen {
+public class TargetedSnitchUpdateGui extends Screen {
 	private static final String START_BOX_TEXT = "Start Index";
 	private static final String STOP_BOX_TEXT = "Stop Index";
 
 	private static final int BOX_AND_BUTTON_WIDTH = GuiConstants.MEDIUM_BUTTON_WIDTH;
 
-	private final GuiScreen cancelToScreen;
+	private final Screen cancelToScreen;
 	private final ChatSnitchParser chatParser;
 
 	private TextBox startIndexBox;
@@ -25,12 +25,12 @@ public class TargetedSnitchUpdateGui extends GuiScreen {
 	private final int startTextWidth;
 	private final int stopTextWidth;
 
-	public TargetedSnitchUpdateGui(GuiScreen cancelToScreen, ChatSnitchParser chatParser) {
+	public TargetedSnitchUpdateGui(Screen cancelToScreen, ChatSnitchParser chatParser) {
 		this.cancelToScreen = cancelToScreen;
 		this.chatParser = chatParser;
 
-		startTextWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(START_BOX_TEXT);
-		stopTextWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(STOP_BOX_TEXT);
+		startTextWidth = Minecraft.getInstance().fontRenderer.getStringWidth(START_BOX_TEXT);
+		stopTextWidth = Minecraft.getInstance().fontRenderer.getStringWidth(STOP_BOX_TEXT);
 	}
 
 	public void initGui() {
@@ -39,7 +39,7 @@ public class TargetedSnitchUpdateGui extends GuiScreen {
 
 		startIndexBox = new TextBox("", fontRenderer, xPos, yPos, BOX_AND_BUTTON_WIDTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, 3);
 		startIndexBox.setClamp(0, 999);
-		startIndexBox.setFocused(true);
+		startIndexBox.changeFocus(true);
 
 		xPos += (startIndexBox.width + GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
@@ -50,10 +50,10 @@ public class TargetedSnitchUpdateGui extends GuiScreen {
 		xPos -= (startIndexBox.width + GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
 		this.buttonList.clear();
-		this.buttonList.add(new GuiButton(1, xPos, yPos, BOX_AND_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttonList.add(new Button(1, xPos, yPos, BOX_AND_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
 		xPos += (startIndexBox.width + GuiConstants.STANDARD_SEPARATION_DISTANCE);
-		this.buttonList.add(new GuiButton(2, xPos, yPos, BOX_AND_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Update"));
+		this.buttonList.add(new Button(2, xPos, yPos, BOX_AND_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Update"));
 
 		super.initGui();
 	}
@@ -66,17 +66,17 @@ public class TargetedSnitchUpdateGui extends GuiScreen {
 
 	public void keyTyped(char par1, int par2) throws IOException {
 		if (startIndexBox.isFocused()) {
-			if (par2 == Keyboard.KEY_TAB) {
-				stopIndexBox.setFocused(true);
-				startIndexBox.setFocused(false);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				stopIndexBox.changeFocus(true);
+				startIndexBox.changeFocus(false);
 			} else {
 				startIndexBox.textboxKeyTyped(par1, par2);
 			}
 		}
 		else if (stopIndexBox.isFocused()) {
-			if (par2 == Keyboard.KEY_TAB) {
-				startIndexBox.setFocused(true);
-				stopIndexBox.setFocused(false);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				startIndexBox.changeFocus(true);
+				stopIndexBox.changeFocus(false);
 			} else {
 				stopIndexBox.textboxKeyTyped(par1, par2);
 			}
@@ -107,10 +107,10 @@ public class TargetedSnitchUpdateGui extends GuiScreen {
 		super.mouseClicked(one, two, three);
 	}
 
-	public void actionPerformed(GuiButton button) {
+	public void actionPerformed(Button button) {
 		switch (button.id) {
 			case 1:
-				Minecraft.getMinecraft().displayGuiScreen(cancelToScreen);
+				Minecraft.getInstance().displayGuiScreen(cancelToScreen);
 				break;
 			case 2:
 				Integer minIndex = startIndexBox.clamp();
@@ -125,7 +125,7 @@ public class TargetedSnitchUpdateGui extends GuiScreen {
 
 				chatParser.updateSnitchList(minIndex, maxIndex);
 
-				Minecraft.getMinecraft().displayGuiScreen(null);
+				Minecraft.getInstance().displayGuiScreen(null);
 				break;
 		}
 	}

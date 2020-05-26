@@ -3,20 +3,20 @@ package com.gmail.nuclearcat1337.snitch_master.gui.tables;
 import com.gmail.nuclearcat1337.snitch_master.gui.GuiConstants;
 import com.gmail.nuclearcat1337.snitch_master.util.Pair;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class TableTopGui<T> extends GuiScreen {
+public abstract class TableTopGui<T> extends Screen {
 	private static final int DONE_BUTTON_WIDTH = GuiConstants.SMALL_BUTTON_WIDTH * 3;
 
-	protected final GuiScreen parentScreen;
-	protected GuiButton doneButton;
-	protected GuiButton columnsButton;
+	protected final Screen parentScreen;
+	protected Button doneButton;
+	protected Button columnsButton;
 
 	private Collection<T> items;
 
@@ -29,11 +29,11 @@ public abstract class TableTopGui<T> extends GuiScreen {
 
 	private TableGui<T> tableGui;
 
-	public TableTopGui(GuiScreen parentScreen, Collection<T> items, String title) {
+	public TableTopGui(Screen parentScreen, Collection<T> items, String title) {
 		this.parentScreen = parentScreen;
 		this.items = items;
 		this.title = title;
-		this.titleWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(title);
+		this.titleWidth = Minecraft.getInstance().fontRenderer.getStringWidth(title);
 	}
 
 	protected abstract void initializeButtons(int firstId);
@@ -73,12 +73,12 @@ public abstract class TableTopGui<T> extends GuiScreen {
 		int xPos = (this.width / 2) - DONE_BUTTON_WIDTH - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 		int yPos = this.height - GuiConstants.STANDARD_BUTTON_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		doneButton = new GuiButton(0, xPos, yPos, DONE_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Back");
+		doneButton = new Button(0, xPos, yPos, DONE_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Back");
 
 		int buttonWidth = mc.fontRenderer.getStringWidth("--Columns--");
 		xPos -= ((GuiConstants.STANDARD_SEPARATION_DISTANCE * 4) + buttonWidth);
 
-		columnsButton = new GuiButton(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Columns");
+		columnsButton = new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Columns");
 
 		buttonList.add(doneButton);
 		buttonList.add(columnsButton);
@@ -118,7 +118,7 @@ public abstract class TableTopGui<T> extends GuiScreen {
 	}
 
 	@Override
-	public void actionPerformed(GuiButton button) {
+	public void actionPerformed(Button button) {
 		if (!button.enabled) {
 			return;
 		}

@@ -6,16 +6,17 @@ import com.gmail.nuclearcat1337.snitch_master.gui.controls.TextBox;
 import com.gmail.nuclearcat1337.snitch_master.locatableobjectlist.ILocation;
 import com.gmail.nuclearcat1337.snitch_master.snitches.Snitch;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchManager;
-import net.minecraft.client.gui.*;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
+import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 
 import static com.gmail.nuclearcat1337.snitch_master.gui.snitchtable.SnitchRemoveColumn.removedSnitches;
 
-public class EditSnitchScreen extends GuiScreen {
+public class EditSnitchScreen extends Screen {
 	private SnitchManager snitchManager;
-	private final GuiScreen previousScreen;
+	private final Screen previousScreen;
 	private final Snitch snitch;
 
 	private int yStartHeight;
@@ -36,7 +37,7 @@ public class EditSnitchScreen extends GuiScreen {
 	private TextBox cullTimeBox;
 	private TextBox distanceBox;
 
-	public EditSnitchScreen(Snitch snitch, SnitchManager snitchManager, GuiScreen previousScreen) {
+	public EditSnitchScreen(Snitch snitch, SnitchManager snitchManager, Screen previousScreen) {
 		this.snitch = snitch;
 		this.snitchManager = snitchManager;
 		this.previousScreen = previousScreen;
@@ -105,13 +106,13 @@ public class EditSnitchScreen extends GuiScreen {
 
 		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new GuiButton(1, (this.width/2)+GuiConstants.SMALL_SEPARATION_DISTANCE/2, yHeight, GuiConstants.SMALL_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
+		this.buttonList.add(new Button(1, (this.width/2)+GuiConstants.SMALL_SEPARATION_DISTANCE/2, yHeight, GuiConstants.SMALL_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
 
-		this.buttonList.add(new GuiButton(2, (this.width/2)-GuiConstants.SMALL_SEPARATION_DISTANCE/2 - GuiConstants.SMALL_BUTTON_WIDTH, yHeight, GuiConstants.SMALL_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttonList.add(new Button(2, (this.width/2)-GuiConstants.SMALL_SEPARATION_DISTANCE/2 - GuiConstants.SMALL_BUTTON_WIDTH, yHeight, GuiConstants.SMALL_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
 		int delWidth = ((xTotalWidth - GuiConstants.SMALL_BUTTON_WIDTH*2 - GuiConstants.SMALL_SEPARATION_DISTANCE) - GuiConstants.SMALL_SEPARATION_DISTANCE*2)/2;
 
-		this.buttonList.add(new GuiButton(3, xLeft, yHeight, delWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "x"));
+		this.buttonList.add(new Button(3, xLeft, yHeight, delWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "x"));
 
 		super.initGui();
 	}
@@ -149,7 +150,7 @@ public class EditSnitchScreen extends GuiScreen {
 	}
 
 	@Override
-	public void actionPerformed(GuiButton button) {
+	public void actionPerformed(Button button) {
 		//"Done" button
 		if (button.id == 1) {
 			saveSnitch();
@@ -181,26 +182,26 @@ public class EditSnitchScreen extends GuiScreen {
 
 	@Override
 	public void keyTyped(char par1, int par2) throws IOException {
-		if (par2 == Keyboard.KEY_RETURN) {
+		if (par2 == GLFW.GLFW_KEY_RETURN) {
 			saveSnitch();
 			return;
 		}
 
 		if (nameBox.isFocused()) {
-			if (par2 == Keyboard.KEY_TAB) {
-				groupBox.setFocused(true);
-				nameBox.setFocused(false);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				groupBox.changeFocus(true);
+				nameBox.changeFocus(false);
 			}
 			nameBox.textboxKeyTyped(par1, par2);
 		} else if (groupBox.isFocused()) {
-			if (par2 == Keyboard.KEY_TAB) {
-				nameBox.setFocused(true);
-				groupBox.setFocused(false);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				nameBox.changeFocus(true);
+				groupBox.changeFocus(false);
 			}
 			groupBox.textboxKeyTyped(par1, par2);
 		} else {
-			if (par2 == Keyboard.KEY_TAB) {
-				nameBox.setFocused(true);
+			if (par2 == GLFW.GLFW_KEY_TAB) {
+				nameBox.changeFocus(true);
 			}
 		}
 		super.keyTyped(par1, par2);

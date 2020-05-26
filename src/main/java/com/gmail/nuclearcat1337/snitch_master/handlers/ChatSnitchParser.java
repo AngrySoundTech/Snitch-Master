@@ -1,11 +1,5 @@
 package com.gmail.nuclearcat1337.snitch_master.handlers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.gmail.nuclearcat1337.snitch_master.Settings;
 import com.gmail.nuclearcat1337.snitch_master.Settings.ChatSpamState;
 import com.gmail.nuclearcat1337.snitch_master.SnitchMaster;
@@ -19,14 +13,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChatSnitchParser {
 	private static final Pattern snitchAlertPattern = Pattern.compile(
@@ -87,7 +86,7 @@ public class ChatSnitchParser {
 		if (message == null) {
 			return;
 		}
-		String messageText = message.getUnformattedText();
+		String messageText = message.getUnformattedComponentText().toString();
 		if (messageText == null) {
 			return;
 		}
@@ -344,7 +343,7 @@ public class ChatSnitchParser {
 	}
 
 	private boolean tryParseJalistMsg(ITextComponent msg) {
-		String snitchLines = stripMinecraftFormattingCodes(msg.getUnformattedText());
+		String snitchLines = stripMinecraftFormattingCodes(msg.getUnformattedComponentText().toString());
 		if (!snitchLines.trim().startsWith("Snitch List for")) {
 			return false;
 		}
@@ -443,7 +442,7 @@ public class ChatSnitchParser {
 	}
 
 	private boolean tryParseJalistMsgJson(ITextComponent msg) {
-		String json = ITextComponent.Serializer.componentToJson(msg);
+		String json = ITextComponent.Serializer.toJson(msg);
 		JsonElement jelement = new JsonParser().parse(json);
 
 		JsonObject jobject = jelement.getAsJsonObject();
@@ -497,7 +496,7 @@ public class ChatSnitchParser {
 	}
 
 	private boolean tryParseJalistMsgFallback(ITextComponent msg) {
-		String snitchLines = stripMinecraftFormattingCodes(msg.getUnformattedText());
+		String snitchLines = stripMinecraftFormattingCodes(msg.getUnformattedComponentText().toString());
 		if (!snitchLines.trim().startsWith("Snitch List for")) {
 			return false;
 		}
@@ -563,7 +562,7 @@ public class ChatSnitchParser {
 			return;
 		}
 		// Player disconnected while the update was running.
-		if (Minecraft.getMinecraft().player == null) {
+		if (Minecraft.getInstance().player == null) {
 			resetUpdatingSnitchList(/* save = */ true, /* cancelled = */ true);
 			return;
 		}
@@ -575,7 +574,7 @@ public class ChatSnitchParser {
 
 		// '/tps' has priority over all other commands.
 		if (nextTpsRunTime != null && timeNow > nextTpsRunTime) {
-			Minecraft.getMinecraft().player.sendChatMessage("/tps");
+			Minecraft.getInstance().player.sendChatMessage("/tps");
 			updateNextCommandRunTime();
 			updateNextTpsRunTime();
 			return;
@@ -585,7 +584,7 @@ public class ChatSnitchParser {
 			resetUpdatingSnitchList(/* save = */ true, /* cancelled = */ false);
 			SnitchMaster.SendMessageToPlayer("Finished targeted snitch update");
 		} else {
-			Minecraft.getMinecraft().player.sendChatMessage("/jalistlong " + jaListIndex);
+			Minecraft.getInstance().player.sendChatMessage("/jalistlong " + jaListIndex);
 			ChatSpamState chatSpamSetting = (ChatSpamState) snitchMaster.getSettings().getValue(Settings.CHAT_SPAM_KEY);
 			if (chatSpamSetting == Settings.ChatSpamState.PAGENUMBERS) {
 				SnitchMaster.SendMessageToPlayer("Parsed snitches from /jalist " + jaListIndex);
@@ -684,7 +683,7 @@ public class ChatSnitchParser {
 		}
 
 		updatingSnitchList = true;
-		Minecraft.getMinecraft().player.sendChatMessage("/tps");
+		Minecraft.getInstance().player.sendChatMessage("/tps");
 		updateNextCommandRunTime();
 	}
 
@@ -695,7 +694,7 @@ public class ChatSnitchParser {
 		maxJaListIndex = stopIndex;
 
 		updatingSnitchList = true;
-		Minecraft.getMinecraft().player.sendChatMessage("/tps");
+		Minecraft.getInstance().player.sendChatMessage("/tps");
 		updateNextCommandRunTime();
 	}
 

@@ -5,8 +5,8 @@ import com.gmail.nuclearcat1337.snitch_master.gui.tables.TableColumn;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchList;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.screen.Screen;
 
 import java.util.List;
 
@@ -21,17 +21,17 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 	private final SnitchManager manager;
 
 	public SnitchListControlsColumn(SnitchListsTable table, SnitchManager manager) {
-		mc = Minecraft.getMinecraft();
+		mc = Minecraft.getInstance();
 		this.table = table;
 		this.manager = manager;
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(SnitchList list) {
-		GuiButton[] buttons = new GuiButton[3];
-		buttons[0] = new GuiButton(0, 0, 0, ARROW_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "/\\");
-		buttons[1] = new GuiButton(1, 0, 0, ON_OFF_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, list.shouldRenderSnitches() ? "On" : "Off");
-		buttons[2] = new GuiButton(2, 0, 0, ARROW_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "\\/");
+	public Button[] prepareEntry(SnitchList list) {
+		Button[] buttons = new Button[3];
+		buttons[0] = new Button(0, 0, 0, ARROW_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "/\\");
+		buttons[1] = new Button(1, 0, 0, ON_OFF_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, list.shouldRenderSnitches() ? "On" : "Off");
+		buttons[2] = new Button(2, 0, 0, ARROW_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "\\/");
 		return buttons;
 	}
 
@@ -46,7 +46,7 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 	}
 
 	@Override
-	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void clicked(SnitchList list, boolean leftClick, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 		if (!leftClick) {
 			return;
 		}
@@ -66,14 +66,14 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 	}
 
 	@Override
-	public void released(SnitchList list, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void released(SnitchList list, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 		buttons[0].mouseReleased(xPos, yPos);
 		buttons[1].mouseReleased(xPos, yPos);
 		buttons[2].mouseReleased(xPos, yPos);
 	}
 
 	@Override
-	public void draw(SnitchList list, int xPosition, int yPosition, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
+	public void draw(SnitchList list, int xPosition, int yPosition, int columnWidth, int slotHeight, Button[] buttons, int slotIndex, int mouseX, int mouseY) {
 		yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 
 		buttons[0].y = yPosition;

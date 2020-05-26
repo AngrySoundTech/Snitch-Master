@@ -4,8 +4,8 @@ import com.gmail.nuclearcat1337.snitch_master.SnitchMaster;
 import com.gmail.nuclearcat1337.snitch_master.gui.tables.TableColumn;
 import com.gmail.nuclearcat1337.snitch_master.snitches.Snitch;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -16,11 +16,11 @@ public class SnitchCullTimeColumn implements TableColumn<Snitch> {
 	private static Minecraft mc;
 
 	public SnitchCullTimeColumn() {
-		mc = Minecraft.getMinecraft();
+		mc = Minecraft.getInstance();
 	}
 
 	@Override
-	public GuiButton[] prepareEntry(Snitch item) {
+	public Button[] prepareEntry(Snitch item) {
 		return null;
 	}
 
@@ -35,17 +35,17 @@ public class SnitchCullTimeColumn implements TableColumn<Snitch> {
 	}
 
 	@Override
-	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void clicked(Snitch item, boolean leftClick, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void released(Snitch item, int xPos, int yPos, GuiButton[] buttons, GuiScreen parentScreen, int slotIndex) {
+	public void released(Snitch item, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
 
 	}
 
 	@Override
-	public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, GuiButton[] buttons, int slotIndex, int mouseX, int mouseY) {
+	public void draw(Snitch snitch, int xPos, int yPos, int columnWidth, int slotHeight, Button[] buttons, int slotIndex, int mouseX, int mouseY) {
 		String text = SnitchMaster.CULL_TIME_ENABLED ? (Double.isNaN(snitch.getCullTime()) ? "Off" : CULL_TIME_FORMAT.format(snitch.getCullTime())) : "Off";
 		int yFinal = yPos + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
 		int nameWidth = mc.fontRenderer.getStringWidth(text);

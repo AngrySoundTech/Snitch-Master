@@ -6,18 +6,18 @@ import com.gmail.nuclearcat1337.snitch_master.gui.controls.TextBox;
 import com.gmail.nuclearcat1337.snitch_master.handlers.QuietTimeHandler;
 import com.gmail.nuclearcat1337.snitch_master.util.QuietTimeConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 
-public class QuietTimeGui extends GuiScreen {
+public class QuietTimeGui extends Screen {
 	private static final int BUTTON_WIDTH = GuiConstants.MEDIUM_BUTTON_WIDTH;
 
-	private final GuiScreen cancelToScreen;
+	private final Screen cancelToScreen;
 	private final Settings settings;
 
 	private TextBox messageBox;
 
-	public QuietTimeGui(GuiScreen cancelToScreen, Settings settings) {
+	public QuietTimeGui(Screen cancelToScreen, Settings settings) {
 		this.cancelToScreen = cancelToScreen;
 		this.settings = settings;
 	}
@@ -41,17 +41,17 @@ public class QuietTimeGui extends GuiScreen {
 
 		this.buttonList.clear();
 
-		this.buttonList.add(new GuiButton(3, startingXPos, startingYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Normal"));
+		this.buttonList.add(new Button(3, startingXPos, startingYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Normal"));
 
-		this.buttonList.add(new GuiButton(4, startingXPos, line2YPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Gjum Special"));
+		this.buttonList.add(new Button(4, startingXPos, line2YPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Gjum Special"));
 
-		this.buttonList.add(new GuiButton(5, column2XPos, startingYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Hide Coordinates"));
+		this.buttonList.add(new Button(5, column2XPos, startingYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Hide Coordinates"));
 
-		this.buttonList.add(new GuiButton(6, column2XPos, line2YPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Hide Coords/Name"));
+		this.buttonList.add(new Button(6, column2XPos, line2YPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Hide Coords/Name"));
 
-		this.buttonList.add(new GuiButton(1, startingXPos, lowerYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttonList.add(new Button(1, startingXPos, lowerYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
-		this.buttonList.add(new GuiButton(2, column2XPos, lowerYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Done"));
+		this.buttonList.add(new Button(2, column2XPos, lowerYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Done"));
 	}
 
 	@Override
@@ -63,13 +63,13 @@ public class QuietTimeGui extends GuiScreen {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public void actionPerformed(GuiButton button) {
+	public void actionPerformed(Button button) {
 		switch (button.id) {
 			case 1:
-				Minecraft.getMinecraft().displayGuiScreen(cancelToScreen);
+				Minecraft.getInstance().displayGuiScreen(cancelToScreen);
 				break;
 			case 2:
-				Minecraft.getMinecraft().displayGuiScreen(null);
+				Minecraft.getInstance().displayGuiScreen(null);
 				break;
 			case 3:
 				this.settings.setValue(QuietTimeHandler.QUIET_TIME_CONFIG_KEY, QuietTimeConfig.NORMAL);

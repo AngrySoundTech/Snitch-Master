@@ -7,24 +7,21 @@ import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchList;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchManager;
 import com.gmail.nuclearcat1337.snitch_master.util.QuietTimeConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.List;
 
-@Mod(modid = SnitchMaster.MODID, name = SnitchMaster.MODNAME, version = SnitchMaster.MODVERSION, guiFactory = "com.gmail.nuclearcat1337.snitch_master.gui.ConfigGuiFactory")
+@Mod(SnitchMaster.MODID)
 public class SnitchMaster {
+
 	public static final String MODID = "snitchmaster";
-	public static final String MODNAME = "Snitch Master";
-	public static final String MODVERSION = "1.0.9";
 	public static final String modDataFolder = "mods/Snitch-Master";
 
-	private static final Minecraft mc = Minecraft.getMinecraft();
+	private static final Minecraft mc = Minecraft.getInstance();
 	public static final Logger logger = LogManager.getLogger(MODID);
 	public static final boolean CULL_TIME_ENABLED = true;
 
@@ -33,7 +30,6 @@ public class SnitchMaster {
 	/**
 	 * The static instance of this SnitchMaster class
 	 */
-	@Mod.Instance(MODID)
 	public static SnitchMaster instance;
 
 	private Settings settings;
@@ -42,8 +38,10 @@ public class SnitchMaster {
 	private ChatSnitchParser chatSnitchParser;
 	private WorldInfoListener worldInfoListener;
 
-	@Mod.EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public SnitchMaster() {
+		instance = this;
+
+		// Old pre-init
 		File file = new File(modDataFolder);
 		if (!file.exists()) {
 			file.mkdir();
@@ -54,10 +52,8 @@ public class SnitchMaster {
 		manager = new SnitchManager(this);
 
 		worldInfoListener = new WorldInfoListener(this);
-	}
 
-	@Mod.EventHandler
-	public void init(FMLInitializationEvent event) {
+		// Old init
 		chatSnitchParser = new ChatSnitchParser(this);
 
 		new SnitchRenderer(this);
@@ -124,7 +120,7 @@ public class SnitchMaster {
 
 	public static void SendMessageToPlayer(String message) {
 		if (mc.player != null) {
-			mc.player.sendMessage(new TextComponentString("[Snitch Master] " + message));
+			mc.player.sendMessage(new StringTextComponent("[Snitch Master] " + message));
 		}
 	}
 

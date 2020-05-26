@@ -10,7 +10,7 @@ import journeymap.client.api.display.ImageOverlay;
 import journeymap.client.api.model.MapImage;
 import journeymap.client.api.util.UIState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.math.BlockPos;
 
 import java.awt.*;
@@ -61,8 +61,8 @@ public class SnitchImageFactory {
 
 				@Override
 				public boolean onMouseClick(UIState uiState, Point2D.Double aDouble, BlockPos blockPos, int i, boolean b) {
-					GuiScreen current = Minecraft.getMinecraft().currentScreen;
-					Minecraft.getMinecraft().displayGuiScreen(new EditSnitchScreen(snitch,SnitchMaster.instance.getManager(),current));
+					Screen current = Minecraft.getInstance().currentScreen;
+					Minecraft.getInstance().displayGuiScreen(new EditSnitchScreen(snitch,SnitchMaster.instance.getManager(),current));
 					return true;
 				}
 			});

@@ -11,7 +11,7 @@ import journeymap.client.api.event.ClientEvent;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
@@ -23,7 +23,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @journeymap.client.api.ClientPlugin
 public class JourneyMapOverlayPlugin implements IClientPlugin, JourneyMapInterface {
-	private final KeyBinding renderJourneyMapOverlay = new KeyBinding("Journey Map Overlay", Keyboard.KEY_Y, "Snitch Master");
+	private final KeyBinding renderJourneyMapOverlay = new KeyBinding("Journey Map Overlay", GLFW.GLFW_KEY_Y, "Snitch Master");
 	private boolean renderOverlay;
 
 	private IClientAPI api = null;

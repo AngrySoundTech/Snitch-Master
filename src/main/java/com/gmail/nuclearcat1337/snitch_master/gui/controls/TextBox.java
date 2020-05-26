@@ -1,9 +1,9 @@
 package com.gmail.nuclearcat1337.snitch_master.gui.controls;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 
-public class TextBox extends GuiTextField {
+public class TextBox extends TextFieldWidget {
 	private final String numericRegex;
 	private boolean number, allowNegative;
 	private Integer clampedMinimum;

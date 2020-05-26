@@ -4,15 +4,15 @@ import com.gmail.nuclearcat1337.snitch_master.SnitchMaster;
 import com.gmail.nuclearcat1337.snitch_master.gui.screens.MainGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-import org.lwjgl.input.Keyboard;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.lwjgl.glfw.GLFW;
 
 public class KeyHandler {
-	public KeyBinding snitchMasterMainGUI = new KeyBinding("Snitch Master Settings", Keyboard.KEY_V, "Snitch Master");
-	public KeyBinding toggleAllRender = new KeyBinding("Toggle Render Snitch Lists", Keyboard.KEY_N, "Snitch Master");
+	public KeyBinding snitchMasterMainGUI = new KeyBinding("Snitch Master Settings", GLFW.GLFW_KEY_V, "Snitch Master");
+	public KeyBinding toggleAllRender = new KeyBinding("Toggle Render Snitch Lists", GLFW.GLFW_KEY_N, "Snitch Master");
 
 	private SnitchMaster snitchMaster;
 
@@ -21,13 +21,13 @@ public class KeyHandler {
 		ClientRegistry.registerKeyBinding(snitchMasterMainGUI);
 		ClientRegistry.registerKeyBinding(toggleAllRender);
 
-		FMLCommonHandler.instance().bus().register(this);
+		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 	}
 
 	@SubscribeEvent
 	public void onKeyPress(InputEvent.KeyInputEvent event) {
 		if (snitchMasterMainGUI.isPressed()) {
-			Minecraft.getMinecraft().displayGuiScreen(new MainGui(snitchMaster));
+			Minecraft.getInstance().displayGuiScreen(new MainGui(snitchMaster));
 		}
 		if (toggleAllRender.isPressed()) {
 			snitchMaster.getManager().toggleGlobalRender();
