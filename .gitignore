@@ -4,4 +4,6 @@
 /run
 /libs
 /.gradle
-
+.idea
+*.iml
+*.iws
