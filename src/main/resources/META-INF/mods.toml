@@ -1,0 +1,17 @@
+modloader="javafml"
+loaderVersion="[24,)"
+
+authors="SoundTech, Mr_Little_Kitty, Gjum, ProgrammerDan, Scuwr, TealNerd"
+
+[[mods]]
+modId="snitchmaster"
+version="${version}"
+displayName="SnitchMaster"
+description="A mod that handles JukeAlert Snitches"
+
+[[dependencies.snitchmaster]]
+modId="forge"
+mandatory=true
+versionRange="[28.1.92,)"
+ordering="NONE"
+side="CLIENT"
