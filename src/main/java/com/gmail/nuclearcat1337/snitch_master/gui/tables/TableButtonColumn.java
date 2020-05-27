@@ -45,14 +45,14 @@ public class TableButtonColumn<T> implements TableColumn<T> {
 		if (!leftClick) {
 			return;
 		}
-		if (buttons[0].mousePressed(mc, xPos, yPos)) {
+		if (buttons[0].mouseClicked(xPos, yPos, 0)) {
 			onClick.onClick(item, buttons[0], parentScreen);
 		}
 	}
 
 	@Override
 	public void released(T list, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
-		buttons[0].mouseReleased(xPos, yPos);
+		buttons[0].mouseReleased(xPos, yPos, 0);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class TableButtonColumn<T> implements TableColumn<T> {
 		buttons[0].y = yPosition;
 		buttons[0].x = xPos;
 
-		buttons[0].drawButton(mc, mouseX, mouseY, 0);
+		buttons[0].render(mouseX, mouseY, 0);
 	}
 
 	@Override

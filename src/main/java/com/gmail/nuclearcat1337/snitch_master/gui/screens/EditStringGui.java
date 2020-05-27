@@ -31,25 +31,25 @@ public class EditStringGui extends Screen {
 		this.titleWidth = Minecraft.getInstance().fontRenderer.getStringWidth(titleText);
 	}
 
-	public void initGui() {
+	public void init() {
 		int xPos = (this.width / 2) - (GuiConstants.LARGE_TEXBOX_LENGTH / 2);
 		int yPos = (this.height / 2) - (GuiConstants.STANDARD_TEXTBOX_HEIGHT) - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 
-		stringBox = new TextBox(editString, fontRenderer, xPos, yPos, GuiConstants.LARGE_TEXBOX_LENGTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, maxStringLength);
+		stringBox = new TextBox(editString,font, xPos, yPos, GuiConstants.LARGE_TEXBOX_LENGTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, maxStringLength);
 		stringBox.changeFocus(true);
 
-		this.buttonList.clear();
+		this.buttons.clear();
 
 		yPos = (this.height / 2) + (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
-		int buttonWidth = (stringBox.width / 2) - GuiConstants.STANDARD_SEPARATION_DISTANCE;
+		int buttonWidth = (stringBox.getWidth() / 2) - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttons.add(new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
 		xPos += (buttonWidth + GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
-		this.buttonList.add(new Button(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
+		this.buttons.add(new Button(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
 
-		super.initGui();
+		super.init();
 	}
 
 	public void updateScreen() {
@@ -57,24 +57,24 @@ public class EditStringGui extends Screen {
 		super.updateScreen();
 	}
 
-	public void keyTyped(char par1, int par2) throws IOException {
+	public void charTyped(char par1, int par2) throws IOException {
 		if (stringBox.isFocused()) {
-			stringBox.textboxKeyTyped(par1, par2);
+			stringBox.charTyped(par1, par2);
 		}
-		super.keyTyped(par1, par2);
+		super.charTyped(par1, par2);
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground();
 		this.stringBox.drawTextBox();
 
-		int xPos = stringBox.x + (stringBox.width / 2) - (titleWidth / 2);
-		int yPos = stringBox.y - mc.fontRenderer.FONT_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
+		int xPos = stringBox.x + (stringBox.getWidth() / 2) - (titleWidth / 2);
+		int yPos = stringBox.y - font.FONT_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
 		mc.fontRenderer.drawString(titleText, xPos, yPos, 16777215);
 
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 
 	public void mouseClicked(int one, int two, int three) throws IOException {
@@ -94,10 +94,5 @@ public class EditStringGui extends Screen {
 				}
 				break;
 		}
-	}
-
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
 	}
 }

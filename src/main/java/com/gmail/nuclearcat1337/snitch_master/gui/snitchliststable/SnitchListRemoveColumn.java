@@ -50,7 +50,7 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList> {
 			return;
 		}
 
-		if (buttons[0].mousePressed(mc, xPos, yPos)) {
+		if (buttons[0].mouseClicked(xPos, yPos, 0)) {
 			manager.removeSnitchList(item.getListName());
 
 			//Deleting a snitch list automatically triggers a save
@@ -63,7 +63,8 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList> {
 		if (removedSnitchLists.contains(list.getListName())) {
 			return;
 		}
-		buttons[0].mouseReleased(xPos, yPos);
+		buttons[0].mouseReleased(xPos, yPos, 0);
+		buttons[0].mouseReleased(xPos, yPos, 0);
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class SnitchListRemoveColumn implements TableColumn<SnitchList> {
 		buttons[0].y = yPosition;
 		buttons[0].x = xPos;
 
-		buttons[0].drawButton(mc, mouseX, mouseY, 0);
+		buttons[0].render(mouseX, mouseY, 0);
 	}
 
 	@Override

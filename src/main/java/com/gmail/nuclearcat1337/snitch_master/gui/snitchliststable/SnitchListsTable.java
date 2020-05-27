@@ -56,14 +56,14 @@ public class SnitchListsTable extends TableTopGui<SnitchList> {
 		int yPos = this.height - GuiConstants.STANDARD_BUTTON_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
 		if (fullList) {
-			this.buttonList.add(new Button(firstId, xPos, yPos, NEW_BUTTON_WIDTH, 18, "New"));
+			this.buttons.add(new Button(firstId, xPos, yPos, NEW_BUTTON_WIDTH, 18, "New"));
 		}
 
 		xPos += GuiConstants.STANDARD_SEPARATION_DISTANCE + NEW_BUTTON_WIDTH;
-		this.buttonList.add(new Button(firstId + 1, xPos, yPos, RENDER_ON_BUTTON_WIDTH, 18, "All On"));
+		this.buttons.add(new Button(firstId + 1, xPos, yPos, RENDER_ON_BUTTON_WIDTH, 18, "All On"));
 
 		xPos += GuiConstants.STANDARD_SEPARATION_DISTANCE + RENDER_ON_BUTTON_WIDTH;
-		this.buttonList.add(new Button(firstId + 2, xPos, yPos, RENDER_OFF_BUTTON_WIDTH, 18, "All Off"));
+		this.buttons.add(new Button(firstId + 2, xPos, yPos, RENDER_OFF_BUTTON_WIDTH, 18, "All Off"));
 	}
 
 	@Override

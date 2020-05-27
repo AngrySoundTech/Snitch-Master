@@ -18,37 +18,37 @@ public class MainGui extends Screen {
 		SnitchRemoveColumn.removedSnitches.clear();
 	}
 
-	public void initGui() {
-		this.buttonList.clear();
+	public void init() {
+		this.buttons.clear();
 
 		String updateButtonMessage = snitchMaster.getChatSnitchParser().isUpdatingSnitchList() ? "Cancel Snitch Update" : "Full Snitch Update";
 
 		int xPos = (this.width / 2) - (GuiConstants.LONG_BUTTON_WIDTH / 2);
 		int yPos = (this.height / 4) + 8 - (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
-		this.buttonList.add(new Button(0, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, updateButtonMessage));
+		this.buttons.add(new Button(0, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, updateButtonMessage));
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
 		String targetedUpdateButtonMessage = snitchMaster.getChatSnitchParser().isUpdatingSnitchList() ? "Cancel Snitch Update" : "Targeted Snitch Update";
 
-		this.buttonList.add(new Button(1, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, targetedUpdateButtonMessage));
+		this.buttons.add(new Button(1, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, targetedUpdateButtonMessage));
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new Button(2, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "View Settings"));
+		this.buttons.add(new Button(2, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "View Settings"));
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new Button(3, xPos, yPos, "View Snitch Lists"));
+		this.buttons.add(new Button(3, xPos, yPos, "View Snitch Lists"));
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new Button(4, xPos, yPos, "View Snitches"));
+		this.buttons.add(new Button(4, xPos, yPos, "View Snitches"));
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new Button(5, xPos, yPos, "Done"));
+		this.buttons.add(new Button(5, xPos, yPos, "Done"));
 	}
 
 	public void actionPerformed(Button button) {
@@ -61,37 +61,32 @@ public class MainGui extends Screen {
 				} else {
 					snitchMaster.getChatSnitchParser().updateSnitchList();
 				}
-				this.mc.displayGuiScreen((Screen) null);
-				this.mc.setIngameFocus();
+				this.minecraft.displayGuiScreen((Screen) null);
+				this.minecraft.setIngameFocus();
 				break;
 			case 1:
 				if (snitchMaster.getChatSnitchParser().isUpdatingSnitchList()) {
 					snitchMaster.getChatSnitchParser().resetUpdatingSnitchList(true, true);
-					this.mc.displayGuiScreen((Screen) null);
-					this.mc.setIngameFocus();
+					this.minecraft.displayGuiScreen((Screen) null);
+					this.minecraft.setIngameFocus();
 				} else {
-					this.mc.displayGuiScreen(new TargetedSnitchUpdateGui(this, snitchMaster.getChatSnitchParser()));
+					this.minecraft.displayGuiScreen(new TargetedSnitchUpdateGui(this, snitchMaster.getChatSnitchParser()));
 				}
 				break;
 			case 2: //"View Settings"
-				this.mc.displayGuiScreen(new SettingsGui(this));
+				this.minecraft.displayGuiScreen(new SettingsGui(this));
 				break;
 			case 3: //"View Snitch Lists"
-				this.mc.gameSettings.saveOptions(); //wtf? Why is this here? What does this do?
-				this.mc.displayGuiScreen(new SnitchListsTable(this, snitchMaster.getManager().getSnitchLists(), "All Snitch Lists", true, snitchMaster));
+				this.minecraft.gameSettings.saveOptions(); //wtf? Why is this here? What does this do?
+				this.minecraft.displayGuiScreen(new SnitchListsTable(this, snitchMaster.getManager().getSnitchLists(), "All Snitch Lists", true, snitchMaster));
 				break;
 			case 4: //"View Snitches"
-				this.mc.displayGuiScreen(new SnitchesTable(this, snitchMaster.getManager().getSnitches(), "All Snitches", snitchMaster));
+				this.minecraft.displayGuiScreen(new SnitchesTable(this, snitchMaster.getManager().getSnitches(), "All Snitches", snitchMaster));
 				break;
 			case 5: //"Done"
-				this.mc.displayGuiScreen((Screen) null);
-				this.mc.setIngameFocus();
+				this.minecraft.displayGuiScreen((Screen) null);
+				this.minecraft.setIngameFocus();
 				break;
 		}
-	}
-
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
 	}
 }

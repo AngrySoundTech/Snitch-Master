@@ -10,8 +10,7 @@ public class TextBox extends TextFieldWidget {
 	private Integer clampedMaximum;
 
 	public TextBox(String text, FontRenderer renderer, int x, int y, int width, int height, boolean numeric, boolean allowNegative, int maxStringLength) {
-		super(0, renderer, x, y, width, height);
-		super.setMaxStringLength(maxStringLength);
+		super(renderer, x, y, width, height, text);
 		super.setText(text);
 		this.number = numeric;
 		this.allowNegative = allowNegative;
@@ -47,8 +46,8 @@ public class TextBox extends TextFieldWidget {
 	}
 
 	@Override
-	public boolean textboxKeyTyped(char par1, int par2) {
-		boolean res = super.textboxKeyTyped(par1, par2);
+	public boolean charTyped(char par1, int par2) {
+		boolean res = super.charTyped(par1, par2);
 		if ((this.number) && (isFocused())) {
 			clamp();
 		}

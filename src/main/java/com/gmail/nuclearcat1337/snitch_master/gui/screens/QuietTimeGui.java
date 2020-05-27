@@ -23,7 +23,7 @@ public class QuietTimeGui extends Screen {
 	}
 
 	@Override
-	public void initGui() {
+	public void init() {
 		final int startingYPos = (this.height / 2) - (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 		final int startingXPos = (this.width / 2) - GuiConstants.STANDARD_SEPARATION_DISTANCE / 2 - BUTTON_WIDTH;
 
@@ -35,32 +35,32 @@ public class QuietTimeGui extends Screen {
 
 		int upperYPos = startingYPos - GuiConstants.STANDARD_SEPARATION_DISTANCE - GuiConstants.STANDARD_TEXTBOX_HEIGHT;
 
-		messageBox = new TextBox("", mc.fontRenderer, centerXPos, upperYPos, BUTTON_WIDTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
+		messageBox = new TextBox("", font, centerXPos, upperYPos, BUTTON_WIDTH, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
 		setTextBoxContent();
 		messageBox.setEnabled(false);
 
-		this.buttonList.clear();
+		this.buttons.clear();
 
-		this.buttonList.add(new Button(3, startingXPos, startingYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Normal"));
+		this.buttons.add(new Button(3, startingXPos, startingYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Normal"));
 
-		this.buttonList.add(new Button(4, startingXPos, line2YPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Gjum Special"));
+		this.buttons.add(new Button(4, startingXPos, line2YPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Gjum Special"));
 
-		this.buttonList.add(new Button(5, column2XPos, startingYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Hide Coordinates"));
+		this.buttons.add(new Button(5, column2XPos, startingYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Hide Coordinates"));
 
-		this.buttonList.add(new Button(6, column2XPos, line2YPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Hide Coords/Name"));
+		this.buttons.add(new Button(6, column2XPos, line2YPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Hide Coords/Name"));
 
-		this.buttonList.add(new Button(1, startingXPos, lowerYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttons.add(new Button(1, startingXPos, lowerYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
-		this.buttonList.add(new Button(2, column2XPos, lowerYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Done"));
+		this.buttons.add(new Button(2, column2XPos, lowerYPos, BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Done"));
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground();
 
 		messageBox.drawTextBox();
 
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 
 	public void actionPerformed(Button button) {

@@ -21,8 +21,8 @@ public class SettingsGui extends Screen {
 		this.settings = SnitchMaster.instance.getSettings();
 	}
 
-	public void initGui() {
-		this.buttonList.clear();
+	public void init() {
+		this.buttons.clear();
 
 		int xPos = (this.width / 2) - (GuiConstants.LONG_BUTTON_WIDTH / 2);
 		int yPos = (this.height / 2) - (((GuiConstants.STANDARD_BUTTON_HEIGHT * 3) + (GuiConstants.STANDARD_SEPARATION_DISTANCE * 2)) / 2);
@@ -33,28 +33,28 @@ public class SettingsGui extends Screen {
 
 		renderTextButton = new Button(1, drawXPos, yPos, halfWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
 		updateRenderTextButton();
-		this.buttonList.add(renderTextButton);
+		this.buttons.add(renderTextButton);
 
 		//Increment it for drawing the second button
 		drawXPos += (halfWidth + GuiConstants.STANDARD_SEPARATION_DISTANCE);
 		manualModeButton = new Button(2, drawXPos, yPos, halfWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
 		updateManualModeButton();
-		this.buttonList.add(manualModeButton);
+		this.buttons.add(manualModeButton);
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
 		quietTimeButton = new Button(3, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Quiet Time Config");
-		this.buttonList.add(quietTimeButton);
+		this.buttons.add(quietTimeButton);
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
 		chatSpamButton = new Button(4, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "");
 		updateChatSpamButton();
-		this.buttonList.add(chatSpamButton);
+		this.buttons.add(chatSpamButton);
 
 		yPos = yPos + GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new Button(0, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Done"));
+		this.buttons.add(new Button(0, xPos, yPos, GuiConstants.LONG_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Done"));
 	}
 
 	public void actionPerformed(Button button) {
@@ -130,10 +130,5 @@ public class SettingsGui extends Screen {
 			jaListSpamText += "Page Numbers";
 		}
 		chatSpamButton.displayString = jaListSpamText;
-	}
-
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
 	}
 }

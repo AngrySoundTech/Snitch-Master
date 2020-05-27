@@ -51,7 +51,7 @@ public class SnitchRemoveColumn implements TableColumn<Snitch> {
 			return;
 		}
 
-		if (buttons[0].mousePressed(mc, xPos, yPos)) {
+		if (buttons[0].mouseClicked(xPos, yPos, 0)) {
 			manager.getSnitches().remove(item);
 			removedSnitches.add(item.getLocation());
 			if (SnitchMaster.jmInterface != null) {
@@ -66,7 +66,7 @@ public class SnitchRemoveColumn implements TableColumn<Snitch> {
 		if (removedSnitches.contains(list.getLocation())) {
 			return;
 		}
-		buttons[0].mouseReleased(xPos, yPos);
+		buttons[0].mouseReleased(xPos, yPos, 0);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class SnitchRemoveColumn implements TableColumn<Snitch> {
 		buttons[0].y = yPosition;
 		buttons[0].x = xPos;
 
-		buttons[0].drawButton(mc, mouseX, mouseY, 0);
+		buttons[0].render(mouseX, mouseY, 0);
 	}
 
 	@Override

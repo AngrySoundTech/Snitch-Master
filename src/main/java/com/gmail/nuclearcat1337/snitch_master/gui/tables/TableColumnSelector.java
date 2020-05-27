@@ -26,8 +26,8 @@ public class TableColumnSelector<T> extends ExtendedList {
 	public TableColumnSelector(Screen parent, List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns) {
 		super(Minecraft.getInstance(), parent.width, parent.height, 32, parent.height - 32, 20);
 
-		this.renderLength = mc.fontRenderer.getStringWidth(RENDER_HEADER + "--");
-		this.setHasListHeader(true, (int) ((float) mc.fontRenderer.FONT_HEIGHT * 1.5));
+		this.renderLength = minecraft.fontRenderer.getStringWidth(RENDER_HEADER + "--");
+		this.setHasListHeader(true, (int) (minecraft.fontRenderer.FONT_HEIGHT * 1.5));
 
 		entries = new ArrayList<>(allColumns.size());
 
@@ -35,12 +35,12 @@ public class TableColumnSelector<T> extends ExtendedList {
 
 		for (TableColumn<T> col : allColumns) {
 			entries.add(new ColumnEntry(col, renderColumns.contains(col)));
-			int length = mc.fontRenderer.getStringWidth(col.getColumnName() + "-");
+			int length = minecraft.fontRenderer.getStringWidth(col.getColumnName() + "-");
 			if (length > maxNameLength)
 				maxNameLength = length;
 		}
 
-		int columnNameLength = mc.fontRenderer.getStringWidth("-Column Name-");
+		int columnNameLength = minecraft.fontRenderer.getStringWidth("-Column Name-");
 		if (columnNameLength > maxNameLength) {
 			maxNameLength = columnNameLength;
 		}
@@ -49,29 +49,29 @@ public class TableColumnSelector<T> extends ExtendedList {
 
 	}
 
-	protected void drawListHeader(int xPosition, int yPosition, Tessellator tessalator) {
+	protected void renderHeader(int xPosition, int yPosition, Tessellator tessalator) {
 		String root = ChatFormatting.UNDERLINE + "" + ChatFormatting.BOLD;
 
-		int controlsWidth = mc.fontRenderer.getStringWidth(root + CONTROLS_HEADER);
-		int nameWidth = mc.fontRenderer.getStringWidth(root + NAME_HEADER);
-		int renderWidth = mc.fontRenderer.getStringWidth(root + RENDER_HEADER);
+		int controlsWidth = minecraft.fontRenderer.getStringWidth(root + CONTROLS_HEADER);
+		int nameWidth = minecraft.fontRenderer.getStringWidth(root + NAME_HEADER);
+		int renderWidth = minecraft.fontRenderer.getStringWidth(root + RENDER_HEADER);
 
 		int workingWidth = (this.width - xPosition);
 		int startingXPos = xPosition + (workingWidth / 2) - (entryWidth / 2);
 
 		int drawXPos = startingXPos + (renderLength / 2) - (controlsWidth / 2);
 
-		this.mc.fontRenderer.drawString(root + CONTROLS_HEADER, drawXPos, yPosition, 16777215);
+		this.minecraft.fontRenderer.drawString(root + CONTROLS_HEADER, drawXPos, yPosition, 16777215);
 
 		startingXPos += (renderWidth + GuiConstants.STANDARD_SEPARATION_DISTANCE);
 		drawXPos = startingXPos + (maxNameLength / 2) - (nameWidth / 2);
 
-		this.mc.fontRenderer.drawString(root + NAME_HEADER, drawXPos, yPosition, 16777215);
+		this.minecraft.fontRenderer.drawString(root + NAME_HEADER, drawXPos, yPosition, 16777215);
 
 		startingXPos += (maxNameLength + GuiConstants.STANDARD_SEPARATION_DISTANCE);
 		drawXPos = startingXPos + (renderLength / 2) - (renderWidth / 2);
 
-		this.mc.fontRenderer.drawString(root + RENDER_HEADER, drawXPos, yPosition, 16777215);
+		this.minecraft.fontRenderer.drawString(root + RENDER_HEADER, drawXPos, yPosition, 16777215);
 	}
 
 	private void swapItems(int index1, int index2) {
@@ -152,13 +152,8 @@ public class TableColumnSelector<T> extends ExtendedList {
 		}
 
 		@Override
-		public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_) {
-
-		}
-
-		@Override
 		public void drawEntry(int slotIndex, int xPosition, int yPosition, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-			int stringYPosition = yPosition + ((slotHeight - mc.fontRenderer.FONT_HEIGHT) / 2);
+			int stringYPosition = yPosition + ((slotHeight - minecraft.fontRenderer.FONT_HEIGHT) / 2);
 			yPosition = yPosition + ((slotHeight - GuiConstants.STANDARD_BUTTON_HEIGHT) / 2);
 
 			int workingWidth = (width - xPosition);
@@ -167,27 +162,27 @@ public class TableColumnSelector<T> extends ExtendedList {
 			upButton.y = yPosition;// + (upButton.height/3);
 			upButton.x = xPos;
 
-			xPos += upButton.width + GuiConstants.SMALL_SEPARATION_DISTANCE;
+			xPos += upButton.getWidth() + GuiConstants.SMALL_SEPARATION_DISTANCE;
 
 			downButton.y = yPosition;// + (downButton.height/3);
 			downButton.x = xPos;
 
-			xPos += downButton.width + (GuiConstants.STANDARD_SEPARATION_DISTANCE);
+			xPos += downButton.getWidth() + (GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
-			int stringWidth = mc.fontRenderer.getStringWidth(column.getColumnName());
+			int stringWidth = minecraft.fontRenderer.getStringWidth(column.getColumnName());
 
 			int namePos = xPos + (maxNameLength / 2) - (stringWidth / 2);
 
-			mc.fontRenderer.drawString(column.getColumnName(), namePos, stringYPosition, 16777215);
+			minecraft.fontRenderer.drawString(column.getColumnName(), namePos, stringYPosition, 16777215);
 
 			xPos += maxNameLength + (GuiConstants.STANDARD_SEPARATION_DISTANCE);
 
 			renderButton.y = yPosition;
-			renderButton.x = xPos + (renderLength / 2) - (renderButton.width / 2);
+			renderButton.x = xPos + (renderLength / 2) - (renderButton.getWidth() / 2);
 
-			this.upButton.drawButton(mc, mouseX, mouseY, 0);
-			this.downButton.drawButton(mc, mouseX, mouseY, 0);
-			this.renderButton.drawButton(mc, mouseX, mouseY, 0);
+			this.upButton.renderButton(mouseX, mouseY, 0);
+			this.downButton.renderButton(mouseX, mouseY, 0);
+			this.renderButton.renderButton(mouseX, mouseY, 0);
 		}
 
 		@Override
@@ -196,15 +191,15 @@ public class TableColumnSelector<T> extends ExtendedList {
 			if (mouseEvent == 1) {
 				return false;
 			}
-			if (this.upButton.mousePressed(mc, xPos, yPos)) {
+			if (this.upButton.mouseClicked(xPos, yPos, 0)) {
 				swapItems(index, index - 1); //The array is goes from bottom to top. so index 0 is at top of screen
 				return true;
 			}
-			if (this.downButton.mousePressed(mc, xPos, yPos)) {
+			if (this.downButton.mouseClicked(xPos, yPos, 0)) {
 				swapItems(index, index + 1); //The array is goes from bottom to top. so index 0 is at top of screen
 				return true;
 			}
-			if (renderButton.mousePressed(mc, xPos, yPos)) {
+			if (renderButton.mouseClicked(xPos, yPos, 0)) {
 				render = !render;
 				setRenderText();
 				return true;
@@ -213,14 +208,19 @@ public class TableColumnSelector<T> extends ExtendedList {
 		}
 
 		private void setRenderText() {
-			renderButton.displayString = "Render: " + (render ? "On" : "Off");
+			renderButton.setMessage("Render: " + (render ? "On" : "Off"));
+		}
+
+		@Override
+		public void mouseReleased() {
+
 		}
 
 		@Override
 		public void mouseReleased(int index, int xPos, int yPos, int mouseEvent, int relX, int relY) {
-			this.upButton.mouseReleased(xPos, yPos);
-			this.downButton.mouseReleased(xPos, yPos);
-			this.renderButton.mouseReleased(xPos, yPos);
+			this.upButton.mouseReleased(xPos, yPos, 0);
+			this.downButton.mouseReleased(xPos, yPos, 0);
+			this.renderButton.mouseReleased(xPos, yPos, 0);
 		}
 	}
 }

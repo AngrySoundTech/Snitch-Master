@@ -45,51 +45,51 @@ public class EditSnitchScreen extends Screen {
 	}
 
 	@Override
-	public void initGui() {
-		yStartHeight = this.height/2 - (GuiConstants.STANDARD_TEXTBOX_HEIGHT*3) - (fontRenderer.FONT_HEIGHT*3) - (GuiConstants.STANDARD_SEPARATION_DISTANCE/2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE*2);
+	public void init() {
+		yStartHeight = this.height/2 - (GuiConstants.STANDARD_TEXTBOX_HEIGHT*3) - (font.FONT_HEIGHT*3) - (GuiConstants.STANDARD_SEPARATION_DISTANCE/2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE*2);
 		xTotalWidth = GuiConstants.MEDIUM_TEXBOX_LENGTH*2 + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 		xLeft = this.width/2 - xTotalWidth/2;
 
 		int yHeight = yStartHeight;
 
-		nameBox = new TextBox(snitch.getName(), fontRenderer, xLeft, yHeight, xTotalWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
+		nameBox = new TextBox(snitch.getName(),font, xLeft, yHeight, xTotalWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
 
-		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE + fontRenderer.FONT_HEIGHT;
+		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE +font.FONT_HEIGHT;
 
-		groupBox = new TextBox(snitch.getGroupName(), fontRenderer, xLeft, yHeight, xTotalWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
+		groupBox = new TextBox(snitch.getGroupName(),font, xLeft, yHeight, xTotalWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
 
-		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE + fontRenderer.FONT_HEIGHT;
+		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE +font.FONT_HEIGHT;
 
 		int xPos = xLeft;
 
-		xBox = new TextBox(String.valueOf(snitch.getLocation().getX()), fontRenderer, xPos, yHeight, (xTotalWidth - (GuiConstants.SMALL_TEXBOX_LENGTH/3)*2 - (GuiConstants.STANDARD_SEPARATION_DISTANCE*2))/2, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, true, 5);
+		xBox = new TextBox(String.valueOf(snitch.getLocation().getX()),font, xPos, yHeight, (xTotalWidth - (GuiConstants.SMALL_TEXBOX_LENGTH/3)*2 - (GuiConstants.STANDARD_SEPARATION_DISTANCE*2))/2, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, true, 5);
 		xBox.setEnabled(false);
 
-		xPos += xBox.width + GuiConstants.STANDARD_SEPARATION_DISTANCE;
+		xPos += xBox.getWidth() + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		yBox = new TextBox(String.valueOf(snitch.getLocation().getY()), fontRenderer, xPos, yHeight, (GuiConstants.SMALL_TEXBOX_LENGTH/3)*2, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, true, 5);
+		yBox = new TextBox(String.valueOf(snitch.getLocation().getY()),font, xPos, yHeight, (GuiConstants.SMALL_TEXBOX_LENGTH/3)*2, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, true, 5);
 		yBox.setEnabled(false);
 
-		xPos += yBox.width + GuiConstants.STANDARD_SEPARATION_DISTANCE;
+		xPos += yBox.getWidth() + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		zBox = new TextBox(String.valueOf(snitch.getLocation().getZ()), fontRenderer, xPos, yHeight, (xTotalWidth - (GuiConstants.SMALL_TEXBOX_LENGTH/3)*2 - (GuiConstants.STANDARD_SEPARATION_DISTANCE*2))/2, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, true, 5);
+		zBox = new TextBox(String.valueOf(snitch.getLocation().getZ()),font, xPos, yHeight, (xTotalWidth - (GuiConstants.SMALL_TEXBOX_LENGTH/3)*2 - (GuiConstants.STANDARD_SEPARATION_DISTANCE*2))/2, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, true, 5);
 		zBox.setEnabled(false);
 
-		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE + fontRenderer.FONT_HEIGHT;
+		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE +font.FONT_HEIGHT;
 
-		worldBox = new TextBox(snitch.getWorld(), fontRenderer, xLeft, yHeight, xTotalWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
+		worldBox = new TextBox(snitch.getWorld(),font, xLeft, yHeight, xTotalWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
 		worldBox.setEnabled(false);
 
-		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE + fontRenderer.FONT_HEIGHT;
+		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE +font.FONT_HEIGHT;
 
 		xPos = xLeft;
 
 		String cullText = Double.isNaN(snitch.getCullTime()) ? "None" : (snitch.getCullTime()+" hrs");
 
-		cullTimeBox = new TextBox(cullText, fontRenderer, xPos, yHeight, (xTotalWidth/2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE/2), GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
+		cullTimeBox = new TextBox(cullText,font, xPos, yHeight, (xTotalWidth/2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE/2), GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
 		cullTimeBox.setEnabled(false);
 
-		xPos += cullTimeBox.width + GuiConstants.STANDARD_SEPARATION_DISTANCE;
+		xPos += cullTimeBox.getWidth() + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
 		ILocation loc = snitch.getLocation();
 
@@ -101,25 +101,25 @@ public class EditSnitchScreen extends Screen {
 			text = "" + distance+ " m";
 		}
 
-		distanceBox = new TextBox(text, fontRenderer, xPos, yHeight, (xTotalWidth/2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE/2), GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
+		distanceBox = new TextBox(text,font, xPos, yHeight, (xTotalWidth/2) - (GuiConstants.STANDARD_SEPARATION_DISTANCE/2), GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, 100);
 		distanceBox.setEnabled(false);
 
 		yHeight += GuiConstants.STANDARD_TEXTBOX_HEIGHT + GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		this.buttonList.add(new Button(1, (this.width/2)+GuiConstants.SMALL_SEPARATION_DISTANCE/2, yHeight, GuiConstants.SMALL_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
+		this.buttons.add(new Button(1, (this.width/2)+GuiConstants.SMALL_SEPARATION_DISTANCE/2, yHeight, GuiConstants.SMALL_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
 
-		this.buttonList.add(new Button(2, (this.width/2)-GuiConstants.SMALL_SEPARATION_DISTANCE/2 - GuiConstants.SMALL_BUTTON_WIDTH, yHeight, GuiConstants.SMALL_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttons.add(new Button(2, (this.width/2)-GuiConstants.SMALL_SEPARATION_DISTANCE/2 - GuiConstants.SMALL_BUTTON_WIDTH, yHeight, GuiConstants.SMALL_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
 		int delWidth = ((xTotalWidth - GuiConstants.SMALL_BUTTON_WIDTH*2 - GuiConstants.SMALL_SEPARATION_DISTANCE) - GuiConstants.SMALL_SEPARATION_DISTANCE*2)/2;
 
-		this.buttonList.add(new Button(3, xLeft, yHeight, delWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "x"));
+		this.buttons.add(new Button(3, xLeft, yHeight, delWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "x"));
 
-		super.initGui();
+		super.init();
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground();
 
 		this.nameBox.drawTextBox();
 		this.groupBox.drawTextBox();
@@ -130,23 +130,23 @@ public class EditSnitchScreen extends Screen {
 		this.cullTimeBox.drawTextBox();
 		this.distanceBox.drawTextBox();
 
-		mc.fontRenderer.drawString("Snitch Name", nameBox.x, nameBox.y - fontRenderer.FONT_HEIGHT -1, 16777215);
+		mc.fontRenderer.drawString("Snitch Name", nameBox.x, nameBox.y -font.FONT_HEIGHT -1, 16777215);
 
-		mc.fontRenderer.drawString("Group Name", groupBox.x, groupBox.y - fontRenderer.FONT_HEIGHT -1, 16777215);
+		mc.fontRenderer.drawString("Group Name", groupBox.x, groupBox.y -font.FONT_HEIGHT -1, 16777215);
 
-		mc.fontRenderer.drawString("X", xBox.x, xBox.y - fontRenderer.FONT_HEIGHT -1, 16777215);
+		mc.fontRenderer.drawString("X", xBox.x, xBox.y -font.FONT_HEIGHT -1, 16777215);
 
-		mc.fontRenderer.drawString("Y", yBox.x, yBox.y - fontRenderer.FONT_HEIGHT -1, 16777215);
+		mc.fontRenderer.drawString("Y", yBox.x, yBox.y -font.FONT_HEIGHT -1, 16777215);
 
-		mc.fontRenderer.drawString("Z", zBox.x, zBox.y - fontRenderer.FONT_HEIGHT -1, 16777215);
+		mc.fontRenderer.drawString("Z", zBox.x, zBox.y -font.FONT_HEIGHT -1, 16777215);
 
-		mc.fontRenderer.drawString("World", worldBox.x, worldBox.y - fontRenderer.FONT_HEIGHT -1, 16777215);
+		mc.fontRenderer.drawString("World", worldBox.x, worldBox.y -font.FONT_HEIGHT -1, 16777215);
 
-		mc.fontRenderer.drawString("Cull Time", cullTimeBox.x, cullTimeBox.y - fontRenderer.FONT_HEIGHT -1, 16777215);
+		mc.fontRenderer.drawString("Cull Time", cullTimeBox.x, cullTimeBox.y -font.FONT_HEIGHT -1, 16777215);
 
-		mc.fontRenderer.drawString("Distance", distanceBox.x, distanceBox.y - fontRenderer.FONT_HEIGHT -1, 16777215);
+		mc.fontRenderer.drawString("Distance", distanceBox.x, distanceBox.y -font.FONT_HEIGHT -1, 16777215);
 
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class EditSnitchScreen extends Screen {
 	}
 
 	@Override
-	public void keyTyped(char par1, int par2) throws IOException {
+	public void charTyped(char par1, int par2) throws IOException {
 		if (par2 == GLFW.GLFW_KEY_RETURN) {
 			saveSnitch();
 			return;
@@ -192,19 +192,19 @@ public class EditSnitchScreen extends Screen {
 				groupBox.changeFocus(true);
 				nameBox.changeFocus(false);
 			}
-			nameBox.textboxKeyTyped(par1, par2);
+			nameBox.charTyped(par1, par2);
 		} else if (groupBox.isFocused()) {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				nameBox.changeFocus(true);
 				groupBox.changeFocus(false);
 			}
-			groupBox.textboxKeyTyped(par1, par2);
+			groupBox.charTyped(par1, par2);
 		} else {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				nameBox.changeFocus(true);
 			}
 		}
-		super.keyTyped(par1, par2);
+		super.charTyped(par1, par2);
 	}
 
 	@Override
@@ -214,10 +214,7 @@ public class EditSnitchScreen extends Screen {
 		super.mouseClicked(one, two, three);
 	}
 
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
-	}
+
 
 	private int getDistanceFromPlayer(int x, int y, int z) {
 		int x1 = x - (int) mc.player.posX;

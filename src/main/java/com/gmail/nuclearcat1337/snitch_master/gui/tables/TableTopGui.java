@@ -5,7 +5,6 @@ import com.gmail.nuclearcat1337.snitch_master.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +44,7 @@ public abstract class TableTopGui<T> extends Screen {
 	}
 
 	@Override
-	public void initGui() {
+	public void init() {
 		Collection<Pair<TableColumn<T>, Boolean>> initialColumns = initializeColumns();
 
 		assert initialColumns != null && !initialColumns.isEmpty();
@@ -68,24 +67,24 @@ public abstract class TableTopGui<T> extends Screen {
 
 		tableGui = new TableGui<T>(this, items, renderColumns);
 
-		buttonList.clear();
+		buttons.clear();
 
 		int xPos = (this.width / 2) - DONE_BUTTON_WIDTH - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 		int yPos = this.height - GuiConstants.STANDARD_BUTTON_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
 		doneButton = new Button(0, xPos, yPos, DONE_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Back");
 
-		int buttonWidth = mc.fontRenderer.getStringWidth("--Columns--");
+		int buttonWidth = minecraft.fontRenderer.getStringWidth("--Columns--");
 		xPos -= ((GuiConstants.STANDARD_SEPARATION_DISTANCE * 4) + buttonWidth);
 
 		columnsButton = new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Columns");
 
-		buttonList.add(doneButton);
-		buttonList.add(columnsButton);
+		buttons.add(doneButton);
+		buttons.add(columnsButton);
 
 		initializeButtons(3);
 
-		super.initGui();
+		super.init();
 	}
 
 	protected Collection<T> getItems() {
@@ -124,29 +123,29 @@ public abstract class TableTopGui<T> extends Screen {
 		}
 		switch (button.id) {
 			case 0: //Done
-				this.mc.displayGuiScreen(parentScreen);
+				this.minecraft.displayGuiScreen(parentScreen);
 				break;
 			case 1:
-				this.mc.displayGuiScreen(new TableColumnSelectorTop<T>(this, allColumns, renderColumns, "Select Columns"));
+				this.minecraft.displayGuiScreen(new TableColumnSelectorTop<T>(this, allColumns, renderColumns, "Select Columns"));
 				break;
 		}
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		//Draw the background, the actual table, and anything from out parent
-		this.drawDefaultBackground();
-		this.tableGui.drawScreen(mouseX, mouseY, partialTicks);
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderBackground();
+		this.tableGui.render(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 
 		//Create positioning info for drawing the title
-		int yPos = 16 - (mc.fontRenderer.FONT_HEIGHT / 2);
+		int yPos = 16 - (minecraft.fontRenderer.FONT_HEIGHT / 2);
 		int xPos = (this.width / 2) - (titleWidth / 2);
 
 		//Draw the title
-		mc.fontRenderer.drawString(title, xPos, yPos, 16777215);
+		minecraft.fontRenderer.drawString(title, xPos, yPos, 16777215);
 
-		if (mouseY >= tableGui.top && mouseY <= tableGui.bottom) {
+		if (mouseY >= tableGui.getTop() && mouseY <= tableGui.getBottom()) {
 			int index = tableGui.getSlotIndexFromScreenCoords(mouseX, mouseY);
 			if (index >= 0) {
 				for (TableColumn<T> col : columnsToBoundsCheck) {
@@ -168,7 +167,7 @@ public abstract class TableTopGui<T> extends Screen {
 		tableGui.mouseClicked(mouseX, mouseY, mouseEvent);
 
 		//Hopefully this determines if they clicked in the header area
-		if (mouseY >= tableGui.top && mouseY <= tableGui.top + tableGui.headerPadding && tableGui.getSlotIndexFromScreenCoords(mouseX, mouseY) < 0) {
+		if (mouseY >= tableGui.getTop() && mouseY <= tableGui.getBottom() + tableGui.headerPadding && tableGui.getSlotIndexFromScreenCoords(mouseX, mouseY) < 0) {
 			for (TableColumn<T> col : renderColumns) {
 				Pair<Integer, Integer> bounds = tableGui.getBoundsForColumn(col);
 				if (mouseX >= bounds.getOne() && mouseX <= bounds.getTwo()) {
@@ -178,11 +177,7 @@ public abstract class TableTopGui<T> extends Screen {
 			}
 		}
 
-		try {
-			super.mouseClicked(mouseX, mouseY, mouseEvent);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		super.mouseClicked(mouseX, mouseY, mouseEvent);
 	}
 
 	@Override
@@ -203,8 +198,5 @@ public abstract class TableTopGui<T> extends Screen {
 		}
 	}
 
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
-	}
+
 }

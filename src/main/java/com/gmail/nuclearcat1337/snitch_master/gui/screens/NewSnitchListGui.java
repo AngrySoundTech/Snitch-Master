@@ -11,6 +11,7 @@ import com.gmail.nuclearcat1337.snitch_master.util.Color;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.StringTextComponent;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class NewSnitchListGui extends Screen {
 	private int buttonWidth;
 
 	public NewSnitchListGui(Screen cancelToScreen, SnitchMaster snitchMaster) {
+		super(new StringTextComponent("New Snitch List"));
 		this.cancelToScreen = cancelToScreen;
 		this.snitchMaster = snitchMaster;
 	}
@@ -42,7 +44,7 @@ public class NewSnitchListGui extends Screen {
 	private static final int MAX_NAME_TEXT_LENGTH = 20;
 	private static final int MAX_COLOR_TEXT_LENGTH = 3;
 
-	public void initGui() {
+	public void init() {
 		qualifierBoxWidth = minecraft.fontRenderer.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW"); //TODO---Idk this is kind of just an arbitrary width
 		nameBoxWidth = qualifierBoxWidth;
 		rgbBoxWidth = nameBoxWidth / 3;
@@ -53,40 +55,40 @@ public class NewSnitchListGui extends Screen {
 		int yPos = (this.height / 2) - (GuiConstants.STANDARD_BUTTON_HEIGHT * 3) - (GuiConstants.STANDARD_SEPARATION_DISTANCE);
 		int xPos = (this.width / 2) - (nameBoxWidth / 2);
 
-		nameBox = new TextBox("", fontRenderer, xPos, yPos, nameBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, MAX_NAME_TEXT_LENGTH);
+		nameBox = new TextBox("",font, xPos, yPos, nameBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, MAX_NAME_TEXT_LENGTH);
 		nameBox.changeFocus(true);
 
 		yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 		xPos = nameBox.x;
 
-		this.qualifierBox = new TextBox("", fontRenderer, xPos, yPos, qualifierBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, SnitchListQualifier.MAX_QUALIFIER_TEXT_LENGTH);
+		this.qualifierBox = new TextBox("",font, xPos, yPos, qualifierBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, false, false, SnitchListQualifier.MAX_QUALIFIER_TEXT_LENGTH);
 
 		yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.redBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+		this.redBox = new TextBox("",font, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
 		redBox.setClamp(0, 255);
 
 		yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.greenBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+		this.greenBox = new TextBox("",font, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
 		greenBox.setClamp(0, 255);
 
 		yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.blueBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+		this.blueBox = new TextBox("",font, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
 		blueBox.setClamp(0, 255);
 
-		this.buttonList.clear();
+		this.buttons.clear();
 
-		xPos += (blueBox.width + GuiConstants.SMALL_SEPARATION_DISTANCE);
+		xPos += (blueBox.getWidth() + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.buttonList.add(new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttons.add(new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
 		xPos += (buttonWidth + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.buttonList.add(new Button(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Create"));
+		this.buttons.add(new Button(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Create"));
 
-		super.initGui();
+		super.init();
 	}
 
 	public void updateScreen() {
@@ -98,44 +100,44 @@ public class NewSnitchListGui extends Screen {
 		super.updateScreen();
 	}
 
-	public void keyTyped(char par1, int par2) throws IOException {
+	public void charTyped(char par1, int par2) throws IOException {
 		if (nameBox.isFocused()) {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				qualifierBox.changeFocus(true);
 				nameBox.changeFocus(false);
 			}
-			nameBox.textboxKeyTyped(par1, par2);
+			nameBox.charTyped(par1, par2);
 		} else if (qualifierBox.isFocused()) {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				redBox.changeFocus(true);
 				qualifierBox.changeFocus(false);
 			}
-			qualifierBox.textboxKeyTyped(par1, par2);
+			qualifierBox.charTyped(par1, par2);
 		} else if (redBox.isFocused()) {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				greenBox.changeFocus(true);
 				redBox.changeFocus(false);
 			}
-			redBox.textboxKeyTyped(par1, par2);
+			redBox.charTyped(par1, par2);
 		} else if (greenBox.isFocused()) {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				blueBox.changeFocus(true);
 				greenBox.changeFocus(false);
 			}
-			greenBox.textboxKeyTyped(par1, par2);
+			greenBox.charTyped(par1, par2);
 		} else if (blueBox.isFocused()) {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				nameBox.changeFocus(true);
 				blueBox.changeFocus(false);
 			}
-			blueBox.textboxKeyTyped(par1, par2);
+			blueBox.charTyped(par1, par2);
 		}
-		super.keyTyped(par1, par2);
+		super.charTyped(par1, par2);
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground();
 
 		int constYValue = (GuiConstants.STANDARD_TEXTBOX_HEIGHT / 2) - minecraft.fontRenderer.FONT_HEIGHT / 2;
 		int constXValue = GuiConstants.SMALL_SEPARATION_DISTANCE + qualifierStringWidth;
@@ -156,7 +158,7 @@ public class NewSnitchListGui extends Screen {
 		this.redBox.drawTextBox();
 		this.greenBox.drawTextBox();
 		this.blueBox.drawTextBox();
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 
 	public void mouseClicked(int one, int two, int three) throws IOException {
@@ -208,8 +210,5 @@ public class NewSnitchListGui extends Screen {
 		}
 	}
 
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
-	}
+
 }

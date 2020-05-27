@@ -99,7 +99,7 @@ public class SnitchesTable extends TableTopGui<Snitch> {
 		@Override
 		public void onClick(Snitch item, Button button, Screen parent) {
 			String snitchName = item.getName().isEmpty() ? "Undefined" : item.getName();
-			mc.displayGuiScreen(new SnitchListsTable(parent, snitchMaster.getManager().getSnitchListsForSnitch(item), "Snitch Lists for Snitch " + snitchName, false, snitchMaster));
+			minecraft.displayGuiScreen(new SnitchListsTable(parent, snitchMaster.getManager().getSnitchListsForSnitch(item), "Snitch Lists for Snitch " + snitchName, false, snitchMaster));
 		}
 	};
 

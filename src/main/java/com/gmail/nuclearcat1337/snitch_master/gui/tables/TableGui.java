@@ -209,11 +209,6 @@ public class TableGui<T> extends ExtendedList {
 		}
 
 		@Override
-		public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_) {
-
-		}
-
-		@Override
 		public void drawEntry(int slotIndex, int xPosition, int yPosition, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
 			int workingWidth = (width - xPosition);
 			int xPos = xPosition + (workingWidth / 2) - (entryWidth / 2);

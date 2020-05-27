@@ -5,10 +5,10 @@ import com.gmail.nuclearcat1337.snitch_master.gui.controls.TextBox;
 import com.gmail.nuclearcat1337.snitch_master.snitches.SnitchList;
 import com.gmail.nuclearcat1337.snitch_master.util.Acceptor;
 import com.gmail.nuclearcat1337.snitch_master.util.Color;
-import net.java.games.input.Keyboard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.StringTextComponent;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
@@ -29,6 +29,7 @@ public class EditColorGui extends Screen {
 	private int greenWidth;
 
 	public EditColorGui(Screen cancelToScreen, Color baseColor, String titleText, Acceptor<Color> callback) {
+		super(new StringTextComponent("Edit Color"));
 		this.cancelToScreen = cancelToScreen;
 		this.baseColor = baseColor;
 		this.callback = callback;
@@ -39,7 +40,7 @@ public class EditColorGui extends Screen {
 
 	private static final int MAX_COLOR_TEXT_LENGTH = 3;
 
-	public void initGui() {
+	public void init() {
 		greenWidth = minecraft.fontRenderer.getStringWidth("Green");
 
 		int width = minecraft.fontRenderer.getStringWidth(SnitchList.MAX_NAME_CHARACTERS + "WWW");
@@ -49,34 +50,34 @@ public class EditColorGui extends Screen {
 		int rgbBoxWidth = (width - GuiConstants.STANDARD_SEPARATION_DISTANCE) / 3;
 		int buttonWidth = (width - GuiConstants.STANDARD_SEPARATION_DISTANCE) / 3;
 
-		this.redBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+		this.redBox = new TextBox("",font, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
 		redBox.setClamp(0, 255);
 		redBox.setText(Integer.toString(baseColor.getRedInt()));
 		redBox.changeFocus(true);
 
 		yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.greenBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+		this.greenBox = new TextBox("",font, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
 		greenBox.setClamp(0, 255);
 		greenBox.setText(Integer.toString(baseColor.getGreenInt()));
 
 		yPos += (GuiConstants.STANDARD_BUTTON_HEIGHT + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.blueBox = new TextBox("", fontRenderer, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
+		this.blueBox = new TextBox("",font, xPos, yPos, rgbBoxWidth, GuiConstants.STANDARD_TEXTBOX_HEIGHT, true, false, MAX_COLOR_TEXT_LENGTH);
 		blueBox.setClamp(0, 255);
 		blueBox.setText(Integer.toString(baseColor.getBlueInt()));
 
-		this.buttonList.clear();
+		this.buttons.clear();
 
-		xPos += (blueBox.width + GuiConstants.SMALL_SEPARATION_DISTANCE);
+		xPos += (blueBox.getWidth() + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.buttonList.add(new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
+		this.buttons.add(new Button(1, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Cancel"));
 
 		xPos += (buttonWidth + GuiConstants.SMALL_SEPARATION_DISTANCE);
 
-		this.buttonList.add(new Button(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
+		this.buttons.add(new Button(2, xPos, yPos, buttonWidth, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
 
-		super.initGui();
+		super.init();
 	}
 
 	public void updateScreen() {
@@ -86,32 +87,32 @@ public class EditColorGui extends Screen {
 		super.updateScreen();
 	}
 
-	public void keyTyped(char par1, int par2) throws IOException {
+	public void charTyped(char par1, int par2) throws IOException {
 		if (redBox.isFocused()) {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				greenBox.changeFocus(true);
 				redBox.changeFocus(false);
 			}
-			redBox.textboxKeyTyped(par1, par2);
+			redBox.charTyped(par1, par2);
 		} else if (greenBox.isFocused()) {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				blueBox.changeFocus(true);
 				greenBox.changeFocus(false);
 			}
-			greenBox.textboxKeyTyped(par1, par2);
+			greenBox.charTyped(par1, par2);
 		} else if (blueBox.isFocused()) {
 			if (par2 == GLFW.GLFW_KEY_TAB) {
 				redBox.changeFocus(true);
 				blueBox.changeFocus(false);
 			}
-			blueBox.textboxKeyTyped(par1, par2);
+			blueBox.charTyped(par1, par2);
 		}
-		super.keyTyped(par1, par2);
+		super.charTyped(par1, par2);
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		this.drawDefaultBackground();
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground();
 		this.redBox.drawTextBox();
 		this.greenBox.drawTextBox();
 		this.blueBox.drawTextBox();
@@ -128,7 +129,7 @@ public class EditColorGui extends Screen {
 
 		minecraft.fontRenderer.drawString(titleText, xPos, yPos, 16777215);
 
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 
 	public void mouseClicked(int one, int two, int three) throws IOException {
@@ -171,8 +172,5 @@ public class EditColorGui extends Screen {
 		minecraft.displayGuiScreen(cancelToScreen);
 	}
 
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
-	}
+
 }

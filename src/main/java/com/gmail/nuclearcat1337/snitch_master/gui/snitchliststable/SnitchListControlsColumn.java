@@ -51,14 +51,14 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 			return;
 		}
 
-		if (buttons[0].mousePressed(mc, xPos, yPos)) { //Up arrow button
+		if (buttons[0].mouseClicked(xPos, yPos, 0)) { //Up arrow button
 			table.swapTableItems(slotIndex, slotIndex - 1);
 			list.increaseRenderPriority();
 			manager.saveSnitchLists();
-		} else if (buttons[1].mousePressed(mc, xPos, yPos)) { //Render toggle button
+		} else if (buttons[1].mouseClicked(xPos, yPos, 0)) { //Render toggle button
 			list.setShouldRenderSnitches(!list.shouldRenderSnitches());
 			manager.saveSnitchLists();
-		} else if (buttons[2].mousePressed(mc, xPos, yPos)) { //Down arrow button
+		} else if (buttons[2].mouseClicked(xPos, yPos, 0)) { //Down arrow button
 			table.swapTableItems(slotIndex, slotIndex + 1);
 			list.decreaseRenderPriority();
 			manager.saveSnitchLists();
@@ -67,9 +67,9 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 
 	@Override
 	public void released(SnitchList list, int xPos, int yPos, Button[] buttons, Screen parentScreen, int slotIndex) {
-		buttons[0].mouseReleased(xPos, yPos);
-		buttons[1].mouseReleased(xPos, yPos);
-		buttons[2].mouseReleased(xPos, yPos);
+		buttons[0].mouseReleased(xPos, yPos, 0);
+		buttons[1].mouseReleased(xPos, yPos, 0);
+		buttons[2].mouseReleased(xPos, yPos, 0);
 	}
 
 	@Override
@@ -84,12 +84,12 @@ public class SnitchListControlsColumn implements TableColumn<SnitchList> {
 
 		buttons[0].x = xPos;
 
-		xPos += buttons[0].width + GuiConstants.SMALL_SEPARATION_DISTANCE;
+		xPos += buttons[0].getWidth() + GuiConstants.SMALL_SEPARATION_DISTANCE;
 
-		buttons[1].displayString = list.shouldRenderSnitches() ? "On" : "Off";
+		buttons[1].setMessage(list.shouldRenderSnitches() ? "On" : "Off");
 		buttons[1].x = xPos;
 
-		xPos += buttons[1].width + GuiConstants.SMALL_SEPARATION_DISTANCE;
+		xPos += buttons[1].getWidth() + GuiConstants.SMALL_SEPARATION_DISTANCE;
 
 		buttons[2].x = xPos;
 

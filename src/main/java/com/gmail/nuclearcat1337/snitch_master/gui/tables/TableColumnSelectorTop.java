@@ -4,6 +4,7 @@ import com.gmail.nuclearcat1337.snitch_master.gui.GuiConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.StringTextComponent;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +24,7 @@ public class TableColumnSelectorTop<T> extends Screen {
 	private final int titleWidth;
 
 	public TableColumnSelectorTop(TableTopGui<T> tableTop, List<TableColumn<T>> allColumns, List<TableColumn<T>> renderColumns, String title) {
+		super(new StringTextComponent(title));
 		this.tableTop = tableTop;
 
 		this.allColumns = allColumns;
@@ -33,36 +35,36 @@ public class TableColumnSelectorTop<T> extends Screen {
 	}
 
 	@Override
-	public void initGui() {
+	public void init() {
 		selectorGui = new TableColumnSelector<>(this, allColumns, renderColumns);
 
-		buttonList.clear();
+		buttons.clear();
 
 		int xPos = (this.width / 2) - DONE_BUTTON_WIDTH - (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 		int yPos = this.height - GuiConstants.STANDARD_BUTTON_HEIGHT - GuiConstants.STANDARD_SEPARATION_DISTANCE;
 
-		buttonList.add(new Button(0, xPos, yPos, DONE_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Back"));
+		buttons.add(new Button(0, xPos, yPos, DONE_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Back"));
 
 		xPos = (this.width / 2) + (GuiConstants.STANDARD_SEPARATION_DISTANCE / 2);
 
-		buttonList.add(new Button(1, xPos, yPos, SAVE_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
+		buttons.add(new Button(1, xPos, yPos, SAVE_BUTTON_WIDTH, GuiConstants.STANDARD_BUTTON_HEIGHT, "Save"));
 
-		super.initGui();
+		super.init();
 	}
 
 	@Override
 	public void actionPerformed(Button button) {
-		if (!button.enabled) {
+		if (!button.active) {
 			return;
 		}
 		switch (button.id) {
 			case 0: //Done
-				this.mc.displayGuiScreen(tableTop);
+				this.minecraft.displayGuiScreen(tableTop);
 				break;
 			case 1: //Save
 				allColumns = selectorGui.getAllColumns();
 				renderColumns = selectorGui.getRenderColumns();
-				this.mc.displayGuiScreen(tableTop);
+				this.minecraft.displayGuiScreen(tableTop);
 				tableTop.setRenderColumns(allColumns, renderColumns);
 				tableTop.saveColumns(allColumns, renderColumns);
 				break;
@@ -70,28 +72,24 @@ public class TableColumnSelectorTop<T> extends Screen {
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		//Draw the background, the actual table, and anything from out parent
-		this.drawDefaultBackground();
-		this.selectorGui.drawScreen(mouseX, mouseY, partialTicks);
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		this.renderBackground();
+		this.selectorGui.render(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 
 		//Create positioning info for drawing the title
-		int yPos = 16 - (mc.fontRenderer.FONT_HEIGHT / 2);
+		int yPos = 16 - (minecraft.fontRenderer.FONT_HEIGHT / 2);
 		int xPos = (this.width / 2) - (titleWidth / 2);
 
 		//Draw the title
-		mc.fontRenderer.drawString(title, xPos, yPos, 16777215);
+		minecraft.fontRenderer.drawString(title, xPos, yPos, 16777215);
 	}
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseEvent) {
 		selectorGui.mouseClicked(mouseX, mouseY, mouseEvent);
-		try {
-			super.mouseClicked(mouseX, mouseY, mouseEvent);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		super.mouseClicked(mouseX, mouseY, mouseEvent);
 	}
 
 	@Override
@@ -104,7 +102,7 @@ public class TableColumnSelectorTop<T> extends Screen {
 	@Override
 	public void handleMouseInput() {
 		//This method is ESSENTIAL to the functioning of the scroll bar
-		selectorGui.handleMouseInput();
+		selectorGui.handle();
 		try {
 			super.handleMouseInput();
 		} catch (IOException e) {
@@ -112,8 +110,5 @@ public class TableColumnSelectorTop<T> extends Screen {
 		}
 	}
 
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
-	}
+
 }
